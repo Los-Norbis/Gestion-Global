@@ -22,7 +22,7 @@ $level = $_SESSION['levelSession'];
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mesa de Entradas</title>
+  <title>Fescom | Sistema de Gestión</title>
 
 	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $iniUrl;?>img/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo $iniUrl;?>img/favicon-96x96.png">
