@@ -6,7 +6,7 @@ if (!empty($_POST) ) {
 		//die();
 		session_start();
 		$usr_level = $_SESSION['levelSession'];
-		
+
 		include('../includes/db_connect.php');
 		define("TablaActual", "usuarios");
 
@@ -40,7 +40,7 @@ if (!empty($_POST) ) {
         $sql = sprintf("SELECT * FROM %s %s ORDER BY %s %s limit %d , %d ", TablaActual , $where ,$orderBy, $orderType ,$start,$length  );
         $data = getData($sql);
     }   /* END SEARCH */
-    
+
     else {
         $sql = sprintf("SELECT * FROM %s WHERE user_level > %s ORDER BY %s %s limit %d , %d ", TablaActual ,$usr_level,$orderBy,$orderType ,$start , $length);
         $data = getData($sql);
@@ -68,7 +68,7 @@ function getData($sql){
 		$resultado = $mysqli->query($sql);
 		$data = array();
 		while ($row = $resultado->fetch_array(MYSQLI_ASSOC)) {
-			$row["user_area"] = buscar_destino ($row["user_area"]);
+			//$row["user_area"] = buscar_destino ($row["user_area"]);
 			//$row['Precio'] = number_format($row['Precio'], 2, ',', '.');
 			$data[] = $row ;
 			// print_r($row);
