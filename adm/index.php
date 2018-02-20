@@ -7,11 +7,11 @@ include($iniUrl . 'dtload.php');
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-	<?php  
+	<?php
   $userlevel = $_SESSION['levelSession'];
 	if ($userlevel == 3) {
 		?>
-			<section class="content">	
+			<section class="content">
 				<div class="col-md-12">
 					<div class="callout callout-danger">
 						<i class="fa fa-lock"></i> &nbsp; <strong>Acceso Denegado...</strong> <?php echo $_SESSION['nameSession'];?> no tiene privilegios para acceder a estas funciones.
@@ -22,8 +22,8 @@ include($iniUrl . 'dtload.php');
 		exit;
 	}
 	?>
-	
-	
+
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>Usuarios <small>Inicio</small></h1>
@@ -51,19 +51,9 @@ include($iniUrl . 'dtload.php');
 					<th>Nivel</th>
                       <th>Id</th>
                   </tr>
-                  </thead>
-                  
-                  <tfoot>
-                  <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                  </tfoot>
-                  
+                  </thead> 
+
+
               </table>
 
             </div>
@@ -80,13 +70,13 @@ include($iniUrl . 'dtload.php');
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
+
               <script type="text/javascript">
                 $(document).ready(function () {
-                  
+
                     var funciones = <?php echo $_SESSION['levelSession']; ?>;
                     var tabla = $('#usuarios').DataTable({
-                                                
+
                           responsive: true,
 													select: {style: 'single'},
                           "lengthMenu": [ 10, 15, 20, 50, 100 ],
@@ -97,7 +87,7 @@ include($iniUrl . 'dtload.php');
                               "url": 'dt_usuarios.php',
                               "type": "POST"
                           },
-                          
+
                           "columns": [
 							  { "data": "user_validate", className: 'text-center', 'orderable': false,
 								  "render": function ( data, type, row ) {
@@ -123,11 +113,11 @@ include($iniUrl . 'dtload.php');
 								  }
 							  },
                               { "data": "user_id", 'width': '10%', className: 'text-right' }
-                              
+
                           ],
                           "order": [[ 1, "asc" ]],
-                           
-                          "language": { 
+
+                          "language": {
                             "sProcessing":     "Procesando...",
                             "sLengthMenu":     "Mostrar _MENU_ Registros",
                             "sZeroRecords":    "No se encontraron resultados",
@@ -142,7 +132,7 @@ include($iniUrl . 'dtload.php');
                             "sLoadingRecords": "Cargando...",
                             "oPaginate": {
                               "sFirst":    "Primero",
-                              "sLast":     "Último",
+                              "sLast":     "ï¿½ltimo",
                               "sNext":     "Siguiente",
                               "sPrevious": "Anterior"
                             },
@@ -158,10 +148,10 @@ include($iniUrl . 'dtload.php');
 									}
 							}
 					}, // Fin de Lenguaje
-					dom: 
+					dom:
 						"<'row'<'col-xs-12 col-md-6'B><'col-md-3 col-xs-12'l><'col-md-3 col-xs-12 pull-right'f>>" +
 						"<'row'<'col-sm-12'tr>>" +
-						"<'row'<'col-md-5'i><'col-md-7'p>>",												
+						"<'row'<'col-md-5'i><'col-md-7'p>>",
 					buttons: [
 						{ text: 'Nuevo',
 								action: function ( e, dt, node, config ) {
@@ -169,7 +159,7 @@ include($iniUrl . 'dtload.php');
 								}
 						},
 						{ text: 'Modificar'},
-						
+
 						//'excelHtml5',
 						/*
 						{ extend: 'pdfHtml5', text: 'PDF', pageSize: 'A4', orientation: 'landscape', title: 'Expedientes',
@@ -180,28 +170,28 @@ include($iniUrl . 'dtload.php');
 						{ text: 'Eliminar'},
 						{ text: 'Estado'},
 						{ extend: 'print', text: 'Imprimir', title: 'Usuarios', className: 'hidden-xs'}
-						
-						
+
+
 					]
-                          
+
                       });
-                    	
+
 					  // Declaracion al inicio...
 					  // Modificar Disable
 					  tabla.buttons( [1,2,3] ).disable();
-                    
+
                       //tabla.buttons().container().appendTo( '#expedientes_wrapper .col-sm-6:eq(0)' );
                       $('#rocket').click(function(){
                           tabla.search( '' ).draw();
                       });
-                      
-											
+
+
 					  // Seleccionar para Modificar
 					  $('#usuarios').on( 'select.dt', function () {
 							  var usr_val = tabla.cell('.selected', 0).data();
 							  var usr_nombre = tabla.cell('.selected', 1).data();
 							  var usr_id = tabla.cell('.selected', 5).data();
-							  
+
 							  tabla.button(1).action( function( e, dt, button, config ) {
 									  window.location.href = "usr-cc.php?Id=" + usr_id;
 							  } );
@@ -212,7 +202,7 @@ include($iniUrl . 'dtload.php');
 							  var parametros = {
 									  "usuario" : usr_id,
 									  "estado" : usr_val
-							  };														
+							  };
 							  $.ajax({
 									  data:  parametros,
 									  url:   'usr-st.php',
@@ -223,21 +213,21 @@ include($iniUrl . 'dtload.php');
 									  success:  function (response) {
 											  tabla.cell('.selected', 0).data(response).draw();
 									  }
-							  });													
+							  });
 							  } );
 							  tabla.buttons([1,2,3]).enable();
 					  } );
-					  
+
 					  $('#usuarios').on( 'deselect.dt', function () {
 							  var usr_id = 0;
 							  tabla.buttons([1,2,3]).disable();
 					  } );
-        
-          
+
+
                   });
               </script>
 
-  
+
 <?php
 include($iniUrl . 'footer.php');
 ?>
