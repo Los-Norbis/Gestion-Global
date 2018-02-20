@@ -68,7 +68,7 @@ function getData($sql){
 		$resultado = $mysqli->query($sql);
 		$data = array();
 		while ($row = $resultado->fetch_array(MYSQLI_ASSOC)) {
-			//$row["user_area"] = buscar_destino ($row["user_area"]);
+			$row["user_area"] = buscar_destino ($row["user_area"]);
 			//$row['Precio'] = number_format($row['Precio'], 2, ',', '.');
 			$data[] = $row ;
 			// print_r($row);

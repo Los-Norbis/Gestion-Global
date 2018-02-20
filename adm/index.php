@@ -46,12 +46,23 @@ include($iniUrl . 'dtload.php');
                   <tr>
 					<th>Activo</th>
                       <th data-priority="1">Nombre</th>
+                      <th>Area</th>
                       <th>Email</th>
-					            <th>Nivel</th>
+					<th>Nivel</th>
                       <th>Id</th>
                   </tr>
                   </thead>
 
+                  <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  </tfoot>
 
               </table>
 
@@ -97,7 +108,8 @@ include($iniUrl . 'dtload.php');
 									  }
 								  }
 							  },
-                { "data": "user_name", 'width': '30%' },							  
+                              { "data": "user_name", 'width': '30%' },
+							  { "data": "user_area", 'width': '30%' },
                               { "data": "user_email", 'width': '30%'},
 							  { "data": "user_level",
 								  "render": function ( data, type, row ) {
