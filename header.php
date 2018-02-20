@@ -12,7 +12,7 @@ if( !isset($_SESSION['userSession']) ) {
   // echo('check falso...' . $_SESSION['redirect']);
 }
 
-$niveles = array('', 'Super Usuario', 'Administrador', 'Normal');
+$niveles = array('', 'Super Usuario', 'Administrador', 'Especial', 'Usuario');
 $level = $_SESSION['levelSession'];
 ?>
 
