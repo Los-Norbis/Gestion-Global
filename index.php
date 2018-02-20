@@ -13,7 +13,7 @@ if ($level < 3) {
 
 	// Contar Transportes
 	if ($result = $mysqli->query("SELECT Id FROM fc_clientes")) {
-			$sol_cnt = $result->num_rows;
+			$cli_cnt = $result->num_rows;
 			$result->close();
 	}
 
@@ -66,23 +66,24 @@ if ($level < 3) {
 		<?php
 		if ($level < 3) {
 		?>
-		<div class="col-md-3 col-xs-6">
+				<div class="col-md-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-blue">
             <div class="inner">
-            <!--  <h3><?php echo $exp_cnt; ?></h3>-->
-              <h4>Expedientes<br />&nbsp;</h4>
+            	<h3><?php echo $cli_cnt; ?></h3>
+              <h4>Art&iacute;culos<br />&nbsp;</h4>
             </div>
             <div class="icon">
               <i class="fa fa-file-text"></i>
             </div>
-            <a href="expedientes" class="small-box-footer">Ir a Expedientes <i class="fa fa-chevron-circle-right"></i></a>
+            <a href="#" class="small-box-footer">Ir a Art&iacute;culos <i class="fa fa-chevron-circle-right"></i></a>
           </div>
-
+				</div>
+				<div class="col-md-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-lime">
             <div class="inner">
-              <h3><?php echo $sol_cnt; ?></h3>
+              <h3><?php echo $cli_cnt; ?></h3>
               <h4>Clientes<br />&nbsp;</h4>
             </div>
             <div class="icon">
@@ -93,6 +94,7 @@ if ($level < 3) {
         </div>
 		<?php } ?>
 
+		<!--
 		<div class="col-lg-4 col-xs-6">
 			<div style="margin: 0 auto; width: 360px; ">
 				<div>
@@ -106,10 +108,10 @@ if ($level < 3) {
 				<div class="alert alert-danger" id="datacontent"></div>
 
 			</div>
-		</div>
-        <!-- /.col -->
+		</div> -->
+
     </div>
-      <!-- /.row -->
+    <!-- /.row -->
 
   </section>
     <!-- /.content -->

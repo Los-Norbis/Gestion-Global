@@ -130,14 +130,6 @@ $level = $_SESSION['levelSession'];
         	<a href="<?php echo $iniUrl;?>index.php"><i class="fa fa-home"></i> <span>Inicio</span></a>
         </li>
 
-
-        <li class="treeview">
-          <a href="<?php echo $iniUrl . 'expedientes/'; ?>"><i class="fa fa-file-text"></i> <span>Expedientes</span></a>
-        </li>
-
-		<?php
-		if ($level < 3) { ?>
-
         <li>
         	<a href="<?php echo $iniUrl . 'clientes/'; ?>"><i class="fa fa-users"></i> <span>Clientes</span></a>
         </li>
@@ -152,6 +144,9 @@ $level = $_SESSION['levelSession'];
             <li><a href="<?php echo $iniUrl . 'expedientes/qr-masivo.php'; ?>"><i class="fa fa-circle-o"></i> Códigos QR</a></li>
           </ul>
         </li>
+
+    <?php
+    if ($level < 3) { ?>
 
         <li class="header">OPCIONES GENERALES</li>
 				<li>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 include_once 'includes/db_connect.php';
 // include_once 'lib/password.php';
@@ -9,35 +9,47 @@ if(isset($_SESSION['userSession']) && $_SESSION['userSession'] > 0) {
 }
 
 if(isset($_POST['btn-login'])) {
-
-	$email = $mysqli->real_escape_string(trim($_POST['m_email']));
+	
+	$user = $mysqli->real_escape_string(trim($_POST['m_user']));
 	$password = $mysqli->real_escape_string(trim($_POST['m_password']));
 	//$password = $_POST['m_password'];
-
-	$query = $mysqli->query("SELECT * FROM usuarios WHERE user_email='$email'");
-	$row = $query->fetch_array();
-	//die($row['user_password']);
-	if(password_verify($password, $row['user_password']) && $row['user_validate'] > 0) {
-
-		$_SESSION['userSession'] = $row['user_id'];
-		$_SESSION['nameSession'] = $row['user_name'];
-		$_SESSION['levelSession'] = $row['user_level'];
-		$_SESSION['imgSession'] = (!empty($row['user_img']) ? $row['user_img'] : 'empty-avatar.png');
-		if(isset($_SESSION['redirect'])) {
-			header("Location: " . $_SESSION['redirect']);
-		} else {
-			$_SESSION['redirect'] = '';
-			header("Location: index.php");
+	
+	$query = $mysqli->query("SELECT * FROM usuarios WHERE BINARY user_name='$user'");
+	if ($query->num_rows > 0) {
+		
+		$row = $query->fetch_array();
+		//die($row['user_password']);
+		// Controlar Pass y que se encuentre activo
+		if(password_verify($password, $row['user_password']) && $row['user_validate'] > 0) {
+			
+			$_SESSION['userSession'] = $row['user_id'];
+			$_SESSION['nameSession'] = $row['user_name'];
+			$_SESSION['levelSession'] = $row['user_level'];
+			$_SESSION['imgSession'] = (!empty($row['user_img']) ? $row['user_img'] : 'empty-avatar.png');		
+			if(isset($_SESSION['redirect'])) {
+				header("Location: " . $_SESSION['redirect']);
+			} else {
+				$_SESSION['redirect'] = '';
+				header("Location: index.php");
+			}
+			
+		} else if ($row['user_validate'] == 0) { // Usuario no habilitado
+		
+				$msg = '<div class="callout callout-danger"><i class="icon fa fa-ban"></i> &nbsp; Ud. aun no ha sido habilitado...</div>';
+				
+		} else { // Pass incorrecto...
+		
+			$msg = '<div class="callout callout-warning"><i class="icon fa fa-ban"></i> &nbsp; Contraseña incorrecta...</div>';
+			
 		}
-	} else {
-		if ($row['user_validate'] == 0) {
-			$msg = '<div class="callout callout-danger"><i class="icon fa fa-ban"></i> &nbsp; Ud. aun no ha sido habilitado...</div>';
-		} else {
-			$msg = '<div class="callout callout-warning"><i class="icon fa fa-ban"></i> &nbsp; Email y/o Contraseña incorrectos...</div>';
-		}
+
+	} else { // Usuario incorrecto...
+	
+			$msg = '<div class="callout callout-warning"><i class="icon fa fa-ban"></i> &nbsp; Usuario incorrecto o inexistente...</div>';
 	}
+	
 	$mysqli->close();
-
+	
 }
 ?>
 <!DOCTYPE html>
@@ -45,7 +57,7 @@ if(isset($_POST['btn-login'])) {
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sistema de Gestión | Ingreso al Sistema</title>
+  <title>PQ Mesa de Entradas | Ingreso al Sistema</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -67,11 +79,11 @@ if(isset($_POST['btn-login'])) {
 <div class="login-box">
   <div class="login-logo"></div>
   <!-- /.login-logo -->
-	<!--<h3 style="text-align: center; color: #fff;">Sistema de <strong>Gestión</strong></h3>-->
+	<h3 style="text-align: center; color: #fff;">Mesa de <strong>Entradas</strong></h3>
 
-  <div class="box box-solid box-success">
+  <div class="box box-solid box-primary">
     <div class="box-header">
-      <h3 class="box-title" style:"responsive"></i>Ingresar al Sistema</h3>
+      <h3 class="box-title">Ingresar al Sistema</h3>
     </div>
     <div class="box-body">
 
@@ -79,42 +91,42 @@ if(isset($_POST['btn-login'])) {
       if(isset($msg)){
          echo $msg;
       }	?>
-
+    
 
     <form action="" method="post">
-
+    
       <div class="input-group" style="margin: 15px 0;">
         <span class="input-group-addon">
-          <i class="fa fa-envelope" style="width: 16px;"></i>
+          <i class="fa fa-user" style="width: 16px;"></i>
         </span>
-        <input type="email" class="form-control" placeholder="Email" name="m_email" required autofocus>
+        <input type="text" class="form-control" placeholder="Usuario" name="m_user" required autofocus>
       </div>
-
+    
       <div class="input-group" style="margin: 15px 0;">
         <span class="input-group-addon">
           <i class="fa fa-unlock-alt" style="width: 16px;"></i>
         </span>
         <input type="password" class="form-control" placeholder="Contraseña" name="m_password" required>
       </div>
-
-
+			
+            
       <div class="row">
         <div class="col-sm-12">
-          <button type="submit" class="btn btn-danger btn-block" name="btn-login" id="btn-login">Ingresar</button>
+          <button type="submit" class="btn btn-primary btn-block" name="btn-login" id="btn-login">Ingresar</button>
         </div>
 			</div>
-
+			
 			<div class="row">
         <div class="col-xs-12 col-sm-6">
-					<button class="btn btn-primary btn-block">Olvidé mi Contraseña</button>
+					<button class="btn btn-default btn-block">Olvidé mi Contraseña</button>
 				</div>
 				<div class="col-xs-12 col-sm-6">
-					<a href="registro.php" class="btn btn-primary btn-block">Registrarse</a>
+					<a href="registro.php" class="btn btn-default btn-block">Registrarse</a>
         </div>
 			</div>
-
-
-
+        
+				
+        
       </div>
     </form>
     </div>
