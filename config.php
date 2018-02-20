@@ -48,7 +48,7 @@ if(isset($_POST['btn-signup'])) {
 	}
 	?>
 
-  <!-- Content Header (Page header) -->
+  <!-- Content Header (Page header trolAA) -->
   <section class="content-header">
     <h1>Opciones <small>Configuraci&oacute;n General</small></h1>
   </section>
