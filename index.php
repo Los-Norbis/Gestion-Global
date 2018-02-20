@@ -58,7 +58,7 @@ if ($level < 3) {
       <h1>Inicio <small>Escritorio de Trabajo</small></h1>
   </section>
 
-    <!-- Main content -->
+  <!-- Main content -->
   <section class="content">
 
 
