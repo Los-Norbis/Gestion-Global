@@ -63,7 +63,7 @@ $level = $_SESSION['levelSession'];
     <!-- Logo -->
     <a href="<?php echo $iniUrl;?>index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>SE</b></span>
+      <span class="logo-mini"><b>SG</b></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">Sistema de <b>Gestión</b></span>
     </a>
