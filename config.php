@@ -21,7 +21,7 @@ if(isset($_POST['btn-signup'])) {
 } else {
 	$sql = "SELECT * FROM opciones WHERE Id = 1";
 	if (!$resultado = $mysqli->query($sql)) {
-			// cupala la concha de l a loraa�.
+			// cupala la concha dxe l a loraa�.
 			echo '<h2>Error... Tabla Opciones</h2>';
 			exit;
 	} else {
