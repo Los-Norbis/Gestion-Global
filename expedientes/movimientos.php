@@ -7,10 +7,11 @@ if (empty($_GET)) {
 }
 
 include($iniUrl . 'header.php');
-$numero = $_GET['numero'];
+$numero = $_GET['Id'];
+$alcance = $_GET['Alcance'];
 
 // $sql = "SELECT ALL Usuario, Fecha FROM me_ruta_exp WHERE Numero = " . $numero . " ORDER BY Fecha DESC";
-   $sql = "SELECT ALL me_ruta_exp.Usuario, me_ruta_exp.Fecha, me_ruta_exp.Destino, me_ruta_exp.Notas, usuarios.user_name, usuarios.user_email FROM me_ruta_exp LEFT JOIN usuarios ON me_ruta_exp.Usuario = usuarios.user_id WHERE me_ruta_exp.Orden = '" . $numero . "' ORDER BY me_ruta_exp.Fecha DESC";
+   $sql = "SELECT ALL me_ruta_exp.Usuario, me_ruta_exp.Fecha, me_ruta_exp.Destino, me_ruta_exp.Notas, usuarios.user_name, usuarios.user_email FROM me_ruta_exp LEFT JOIN usuarios ON me_ruta_exp.Usuario = usuarios.user_id WHERE me_ruta_exp.Orden = '" . $numero . "' AND me_ruta_exp.Alcance = " . $alcance . " ORDER BY me_ruta_exp.Fecha DESC";
 //die($sql);
 
 if (!$movs = $mysqli->query($sql)) {
@@ -49,8 +50,13 @@ if (!$tbl_destinos = $mysqli->query($sql)) {
 			
 		 
 							<?php
-							if ($movs->num_rows === 0) {
-								echo '<div class="col-md-12"><h4 class="cell-center">No se encontraron movimientos...</h4></div>';
+							if ($movs->num_rows === 0) { ?>
+								<div class="col-md-12"><h4 class="cell-center">No se encontraron movimientos...</h4>
+                                  <div class="form-group">
+                                      <button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
+                                  </div>                                
+                                </div>
+                            <?php
 							} else {
 							?>
 	
@@ -84,7 +90,10 @@ if (!$tbl_destinos = $mysqli->query($sql)) {
 										}
 										?>
 									</table>
-								</div>      
+								</div>
+								<div class="form-group">
+									<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
+								</div>                                      
 							</div>
 							<?php
 							}

@@ -8,6 +8,7 @@ if(isset($_POST['btn-signup'])) {
 	$name = $mysqli->real_escape_string(trim($_POST['m_name']));
 	$password = $mysqli->real_escape_string(trim($_POST['m_password']));
 	$level = $_POST['m_level'];
+	$area = $_POST['m_destino'];
 	
 	if (!empty($password)) {
 		$new_password = password_hash($password, PASSWORD_DEFAULT);
@@ -27,11 +28,11 @@ if(isset($_POST['btn-signup'])) {
 
 		//die($name . ' ' . $email . ' ' . $new_password . ' ' . $level);
 		if (!empty($password)) {
-			$query = $mysqli->prepare("UPDATE usuarios SET user_name = ?, user_password = ?, user_level = ? WHERE user_email = ?");
-			$query->bind_param('ssis', $name, $new_password, $level, $email);
+			$query = $mysqli->prepare("UPDATE usuarios SET user_name = ?, user_password = ?, user_level = ?, user_area = ? WHERE user_email = ?");
+			$query->bind_param('ssiis', $name, $new_password, $level, $area, $email);
 		} else {
-			$query = $mysqli->prepare("UPDATE usuarios SET user_name = ?, user_level = ? WHERE user_email = ?");
-			$query->bind_param('sis', $name, $level, $email);
+			$query = $mysqli->prepare("UPDATE usuarios SET user_name = ?, user_level = ?, user_area = ? WHERE user_email = ?");
+			$query->bind_param('siis', $name, $level, $area, $email);
 		}
 
 		if($query->execute()) {
@@ -59,6 +60,13 @@ if(isset($_POST['btn-signup'])) {
 	exit;
 
 } else {
+	
+	$sql = "SELECT ALL Id, Nombre FROM me_destino_exp";
+	if (!$tbl_destinos = $mysqli->query($sql)) {
+			echo "<h2>Error en la Consulta SQL | Destino.</h2>";
+			exit;
+	}
+		
 	// Cargar Data del Usuario	
 	$usr_id = $_GET['Id'];
 	$sql = "SELECT * FROM usuarios WHERE user_id = " . $usr_id;
@@ -116,6 +124,24 @@ if(isset($_POST['btn-signup'])) {
                   <i class="fa fa-unlock-alt" style="width: 16px;"></i>
                 </span>
               	<input type="password" class="form-control" placeholder="Contraseña | Dejar en blanco para conservar la anterior" name="m_password" />
+              </div>
+
+              <!-- Destino -->
+              <div class="form-group">
+              <div class="input-group" style="margin: 10px 0 20px;">
+                <span class="input-group-addon">
+                  <i class="fa fa-unlock-alt" style="width: 16px;"></i>
+                </span>
+                  
+                <select required class="form-control" name="m_destino" id="destino" required>
+                    <option value="">Area del Usuario</option>
+                    <?php
+                   	while ($destinos = $tbl_destinos->fetch_assoc()) {
+						echo '<option value=' . $destinos['Id'] . ($destinos['Id'] == $usr_act['user_area'] ? ' selected ' : '') . '>' . $destinos['Nombre'] . '</option><br />';
+					}
+                    ?>
+                </select>
+                  
               </div>
 
               <div class="form-group">

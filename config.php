@@ -21,22 +21,22 @@ if(isset($_POST['btn-signup'])) {
 } else {
 	$sql = "SELECT * FROM opciones WHERE Id = 1";
 	if (!$resultado = $mysqli->query($sql)) {
-			// cupala la concha dxe l a loraaï¿½.
-			echo '<h2>Error... Tabla Opciones</h2>';
+			// ¡Oh, no! La consulta falló. 
+			echo '<h2>Error... Opciones</h2>';
 			exit;
 	} else {
 			$fila = $resultado->fetch_assoc();
-	}
+	}	
 }
 ?>
 
 <div class="content-wrapper">
 
-	<?php
+	<?php  
   $userlevel = $_SESSION['levelSession'];
 	if ($userlevel > 2) {
 		?>
-			<section class="content">
+			<section class="content">	
 				<div class="col-md-12">
 					<div class="callout callout-danger">
 						<i class="fa fa-lock"></i> &nbsp; <strong>Acceso Denegado...</strong> <?php echo $_SESSION['nameSession'];?> no tiene privilegios para acceder a estas funciones.
@@ -47,18 +47,18 @@ if(isset($_POST['btn-signup'])) {
 		exit;
 	}
 	?>
-
-  <!-- Content Header (Page header trolAA) -->
+  
+  <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>Opciones <small>Configuraci&oacute;n General</small></h1>
   </section>
 
   <!-- Main content -->
   <section class="content">
-
+    
   <div class="row">
     <div class="col-md-6 col-xs-12">
-
+    
       <div class="box box-info">
           <div class="box-header with-border">
             <h3 class="box-title pull-left">Valores Globales</h3>
@@ -70,7 +70,7 @@ if(isset($_POST['btn-signup'])) {
                   echo $msg;
               }
               ?>
-
+							
 							<div class="row">
 								<div class="col-md-6 col-xs-12">
 								<div class="form-group">
@@ -83,7 +83,7 @@ if(isset($_POST['btn-signup'])) {
 									</div>
 								</div>
 								</div>
-
+								
 								<div class="col-md-6 col-xs-12">
 								<div class="form-group">
 									<label>Valor Euro</label>
@@ -95,16 +95,16 @@ if(isset($_POST['btn-signup'])) {
 									</div>
 								</div>
 								</div>
-							</div>
+							</div>				
 
-
+              
               <div class="form-group">
               	<button tabindex="5" type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-                <button tabindex="4" type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-refresh"></i> &nbsp; Modificar Opciones</button>
-              </div>
-
+                <button tabindex="4" type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-refresh"></i> &nbsp; Modificar Opciones</button> 
+              </div> 
+            
             </form>
-
+      
           </div>
   		</div>
     </div>
@@ -117,11 +117,11 @@ if(isset($_POST['btn-signup'])) {
 <script type="text/javascript">
 
 $(document).ready(function(){
-
+													 
 
 });
 
-</script>
+</script> 
 
 <?php
 include($iniUrl . 'footer.php');

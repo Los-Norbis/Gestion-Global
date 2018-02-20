@@ -8,6 +8,7 @@ if (empty($_GET)) {
 $iniUrl = '../';
 include($iniUrl . 'header.php');
 $numero = $_GET['Id'];
+$alcance = $_GET['Alcance'];
 
 if(isset($_POST['btn-signup'])) {
 
@@ -18,16 +19,27 @@ if(isset($_POST['btn-signup'])) {
 	$add_date = $dateTime->format("Y-m-d H:i:s");
 	$fecha = $add_date;
 	
-	$sql = "INSERT INTO me_ruta_exp (Orden, Usuario, Fecha, Destino, Notas) VALUES (?, ?, ?, ?, ?)";
+	$sql = "INSERT INTO me_ruta_exp (Orden, Alcance, Usuario, Fecha, Destino, Notas) VALUES (?, ?, ?, ?, ?, ?)";
 	$stmt = $mysqli->prepare($sql);
-	$stmt->bind_param('sisis', $numero, $usuario,	$fecha, $destino, $notas);
+	$stmt->bind_param('siisis', $numero, $alcance, $usuario, $fecha, $destino, $notas);
 		
-	if($stmt->execute()) {
-			header('Location: index.php');
-	}	else {
-			$msg = '<div class="alert alert-danger"><i class="fa fa-ban"></i> &nbsp; Ha ocurrido un error...</div>';
+	if(!$stmt->execute()) {
+		$msg = '<div class="alert alert-danger"><i class="fa fa-ban"></i> &nbsp; Ha ocurrido un error...</div>';
+		exit;
 	}
 	$stmt->close();
+	
+	// Actualizar Expediente Principal
+	$query = $mysqli->prepare("UPDATE me_expedientes SET Destino = ? WHERE Orden = ? AND Alcance = ?");
+	$query->bind_param('isi', $destino, $numero, $alcance);
+
+	if($query->execute()) {
+		$query->close();
+		header('Location: index.php');
+	} else {
+		$msg = '<div class="alert alert-danger"><i class="fa fa-ban"></i> &nbsp; Ha ocurrido un error al salvar Nuevo Destino en Expediente...</div>';
+		exit;
+	}	
 			
 	$mysqli->close();
 
@@ -40,7 +52,7 @@ if(isset($_POST['btn-signup'])) {
 			exit;
 	}
 	
-	$sql = "SELECT * FROM me_expedientes WHERE Orden = " . $numero;
+	$sql = "SELECT * FROM me_expedientes WHERE Orden = " . $numero . " AND Alcance = " . $alcance;
 	if (!$tbl_exp = $mysqli->query($sql)) {
 			// ¡Oh, no! La consulta falló. 
 			echo "<h2>Error en la Consulta SQL | Destino.</h2>";
@@ -57,7 +69,7 @@ if(isset($_POST['btn-signup'])) {
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Transferir Expediente <?php echo substr($numero,0,4) . '|' . substr($numero,4,4); ?></h1>
+      <h1>Transferir <?php echo (!empty($alcance) ? ' Alcance de ' : '');?>Expediente <?php echo substr($numero,0,4) . '|' . substr($numero,4,4); ?></h1>
     </section>
 
   <!-- Main content -->

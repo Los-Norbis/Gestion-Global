@@ -1732,7 +1732,7 @@ a:focus {
 .box-header > .ion,
 .box-header .box-title {
   display: inline-block;
-  font-size: 18px;
+  font-size: 22px;
   margin: 0;
   line-height: 1;
 }
@@ -3202,7 +3202,8 @@ text-align: center;
 margin-bottom: 25px;
 font-weight: 300;
 background: url(../img/logo-login.png) center center no-repeat;
-height: 60px;
+height: 100px;
+
 }
 .login-logo a,
 .register-logo a {

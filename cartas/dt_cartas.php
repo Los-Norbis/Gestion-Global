@@ -4,11 +4,9 @@ header('Content-type: text/html; charset=utf-8');
 if (!empty($_POST) ) {
 		//print_r($_POST);
 		//die();
-		session_start();
-		$usr_level = $_SESSION['levelSession'];
 		
 		include('../includes/db_connect.php');
-		define("TablaActual", "usuarios");
+		define("TablaActual", "cartas LEFT JOIN transportes ON cartas.Tr_Id=transportes.Id LEFT JOIN cargas ON cartas.TipoCarga=cargas.Id");
 
     /* Useful $_POST Variables coming from the plugin */
     $draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables
@@ -19,30 +17,35 @@ if (!empty($_POST) ) {
     $length = $_POST['length'];//Number of records that the table can display in the current draw
     /* END of POST variables */
 
-    $recordsTotal = count(getData("SELECT * FROM " . TablaActual . " WHERE user_level > " . $usr_level));
+    $recordsTotal = count(getData("SELECT * FROM cartas"));
 
     /* SEARCH CASE : Filtered data */
     if(!empty($_POST['search']['value'])){
 
         /* WHERE Clause for searching */
         for($i=0 ; $i < (count($_POST['columns'])-1);$i++){
+					$casi = trim($_POST['columns'][$i]['searchable']);
+					if ($casi == 'true') {
             $column = $_POST['columns'][$i]['data'];//we get the name of each column using its index from POST request
             $where[]="$column like '%".$_POST['search']['value']."%'";
+					}
         }
-        $where = "WHERE user_level > " . $usr_level . " AND (" .implode(" OR " , $where) . ")";// id like '%searchValue%' or name like '%searchValue%' ....
+        $where = "WHERE ".implode(" OR " , $where);// id like '%searchValue%' or name like '%searchValue%' ....
         /* End WHERE */
+				
+				die($where);
 
-        $sql = sprintf("SELECT * FROM %s %s", TablaActual , $where);//Search query without limit clause (No pagination)
+        $sql = sprintf("SELECT cartas.*, transportes.*, cargas.Nombre AS Carga FROM %s %s", TablaActual, $where);//Search query without limit clause (No pagination)
 
         $recordsFiltered = count(getData($sql));//Count of search result
 
         /* SQL Query for search with limit and orderBy clauses*/
-        $sql = sprintf("SELECT * FROM %s %s ORDER BY %s %s limit %d , %d ", TablaActual , $where ,$orderBy, $orderType ,$start,$length  );
+        $sql = sprintf("SELECT cartas.*, transportes.*, cargas.Nombre AS Carga FROM %s %s ORDER BY %s %s limit %d , %d ", TablaActual , $where ,$orderBy, $orderType ,$start,$length  );
         $data = getData($sql);
     }   /* END SEARCH */
     
     else {
-        $sql = sprintf("SELECT * FROM %s WHERE user_level > %s ORDER BY %s %s limit %d , %d ", TablaActual ,$usr_level,$orderBy,$orderType ,$start , $length);
+        $sql = sprintf("SELECT cartas.*, transportes.Nombre AS Trans, cargas.Nombre AS Carga FROM %s ORDER BY %s %s limit %d , %d ", TablaActual ,$orderBy,$orderType ,$start , $length);
         $data = getData($sql);
 
         $recordsFiltered = $recordsTotal;
@@ -59,32 +62,44 @@ if (!empty($_POST) ) {
     echo json_encode($response);
 
 } else {
-    echo "No hay Registros...";
+    echo "NO POST Query from DataTable";
 }
 
+/*
+ * @param (string) SQL Query
+ * @return multidim array containing data array(array('column1'=>value2,'column2'=>value2...))
+ *
+ */
 function getData($sql){
 
-		global $mysqli;//we use connection already opened
+		global $mysqli;
+		//die($sql);
 		$resultado = $mysqli->query($sql);
 		$data = array();
 		while ($row = $resultado->fetch_array(MYSQLI_ASSOC)) {
-			$row["user_area"] = buscar_destino ($row["user_area"]);
-			//$row['Precio'] = number_format($row['Precio'], 2, ',', '.');
-			$data[] = $row ;
-			// print_r($row);
-			// echo $row["Tema"];
+				//print_r($row);
+				//$row["Tr_Id"] = buscar_transporte ($row["Tr_Id"]);
+				//
+				$row['Tarifa'] = number_format($row['Tarifa'], 2, ',', '.');
+				$row['KgCarga'] = number_format($row['KgCarga'], 0, ',', '.');
+				$row['KgDescarga'] = number_format($row['KgDescarga'], 0, ',', '.');
+				$row["TipoCarga"] = number_format( cp_total($row["Id"]) , 2, ',', '.');
+				$data[] = $row ;
+									
+				// echo $row["Tema"];
 		}
 		return $data;
 }
 
-function buscar_destino($indice) {
-	global $mysqli;
-	$t_sql = sprintf("SELECT * FROM me_destino_exp WHERE Id = %d ", $indice);
+function cp_total ($indice) {
+	global $mysqli ;
+	$t_sql = sprintf("SELECT Importe FROM trans_cc WHERE CP_Id = %d AND Tipo = 0", $indice);
 	if ($t_query = $mysqli->query($t_sql)) {
 		$fila = $t_query->fetch_row();
-		return $fila[1];
+		return $fila[0];
 	} else {
 		return "Error...";
 	}
 }
+
 ?>

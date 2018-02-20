@@ -44,21 +44,23 @@ include($iniUrl . 'dtload.php');
               <table cellpadding="0" cellspacing="0" id="usuarios" class="table nowrap table-striped table-bordered table-hover report" width="100%">
                   <thead>
                   <tr>
-											<th>Activo</th>
+					<th>Activo</th>
                       <th data-priority="1">Nombre</th>
+                      <th>Area</th>
                       <th>Email</th>
-											<th>Nivel</th>
+					<th>Nivel</th>
                       <th>Id</th>
                   </tr>
                   </thead>
                   
                   <tfoot>
                   <tr>
-											<th></th>
-                      <th></th>
-                      <th></th>
-											<th></th>
-                      <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                   </tr>
                   </tfoot>
                   
@@ -97,28 +99,29 @@ include($iniUrl . 'dtload.php');
                           },
                           
                           "columns": [
-															{ "data": "user_validate", className: 'text-center', 'orderable': false,
-																"render": function ( data, type, row ) {
-																	if (data === '0') {
-																		return '<i class="fa fa-clock-o" style="color: orange;"></i>';
-																	} else if (data === '1') {
-																		return '<i class="fa fa-check-circle" style="color: limegreen;"></i>';
-																	}
-																}
-															},
-                              { "data": "user_name", 'width': '40%' },
-                              { "data": "user_email", 'width': '40%'},
-															{ "data": "user_level",
-																"render": function ( data, type, row ) {
-																	if (data === '1') {
-																		return 'Super Usuario';
-																	} else if (data === '2') {
-																		return 'Administrador';
-																	} else if (data === '3') {
-																		return 'Normal';
-																	}
-																}
-															},
+							  { "data": "user_validate", className: 'text-center', 'orderable': false,
+								  "render": function ( data, type, row ) {
+									  if (data === '0') {
+										  return '<i class="fa fa-clock-o" style="color: orange;"></i>';
+									  } else if (data === '1') {
+										  return '<i class="fa fa-check-circle" style="color: limegreen;"></i>';
+									  }
+								  }
+							  },
+                              { "data": "user_name", 'width': '30%' },
+							  { "data": "user_area", 'width': '30%' },
+                              { "data": "user_email", 'width': '30%'},
+							  { "data": "user_level",
+								  "render": function ( data, type, row ) {
+									  if (data === '1') {
+										  return 'Super Usuario';
+									  } else if (data === '2') {
+										  return 'Administrador';
+									  } else if (data === '3') {
+										  return 'Normal';
+									  }
+								  }
+							  },
                               { "data": "user_id", 'width': '10%', className: 'text-right' }
                               
                           ],
@@ -147,45 +150,45 @@ include($iniUrl . 'dtload.php');
                               "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                               "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                             },
-														select: {
-																rows: {
-																		_: 'Ha seleccionado %d Registros',
-																		0: '<span class="text-info">Seleccione una fila para activar funciones...</span>',
-																		1: '<span class="text-success">Registro seleccionado.</span>'
-																}
-														}
-												}, // Fin de Lenguaje
-												dom: 
-													"<'row'<'col-xs-12 col-md-6'B><'col-md-3 col-xs-12'l><'col-md-3 col-xs-12 pull-right'f>>" +
-													"<'row'<'col-sm-12'tr>>" +
-													"<'row'<'col-md-5'i><'col-md-7'p>>",												
-												buttons: [
-													{ text: 'Nuevo',
-															action: function ( e, dt, node, config ) {
-																	window.location.href = "usr-nu.php";
-															}
-													},
-													{ text: 'Modificar'},
-													
-													//'excelHtml5',
-													/*
-													{ extend: 'pdfHtml5', text: 'PDF', pageSize: 'A4', orientation: 'landscape', title: 'Expedientes',
-															exportOptions: {
-																columns: [ 1, 2, 3, 5, 6, 7 ]
-															}
-													}, */
-													{ text: 'Eliminar'},
-													{ text: 'Estado'},
-													{ extend: 'print', text: 'Imprimir', title: 'Usuarios', className: 'hidden-xs'}
-													
-													
-												]
+							select: {
+									rows: {
+											_: 'Ha seleccionado %d Registros',
+											0: '<span class="text-info">Seleccione una fila para activar funciones...</span>',
+											1: '<span class="text-success">Registro seleccionado.</span>'
+									}
+							}
+					}, // Fin de Lenguaje
+					dom: 
+						"<'row'<'col-xs-12 col-md-6'B><'col-md-3 col-xs-12'l><'col-md-3 col-xs-12 pull-right'f>>" +
+						"<'row'<'col-sm-12'tr>>" +
+						"<'row'<'col-md-5'i><'col-md-7'p>>",												
+					buttons: [
+						{ text: 'Nuevo',
+								action: function ( e, dt, node, config ) {
+										window.location.href = "usr-nu.php?ml=" + (funciones + 1);
+								}
+						},
+						{ text: 'Modificar'},
+						
+						//'excelHtml5',
+						/*
+						{ extend: 'pdfHtml5', text: 'PDF', pageSize: 'A4', orientation: 'landscape', title: 'Expedientes',
+								exportOptions: {
+									columns: [ 1, 2, 3, 5, 6, 7 ]
+								}
+						}, */
+						{ text: 'Eliminar'},
+						{ text: 'Estado'},
+						{ extend: 'print', text: 'Imprimir', title: 'Usuarios', className: 'hidden-xs'}
+						
+						
+					]
                           
                       });
                     	
-											// Declaracion al inicio...
-											// Modificar Disable
-											tabla.buttons( [1,2,3] ).disable();
+					  // Declaracion al inicio...
+					  // Modificar Disable
+					  tabla.buttons( [1,2,3] ).disable();
                     
                       //tabla.buttons().container().appendTo( '#expedientes_wrapper .col-sm-6:eq(0)' );
                       $('#rocket').click(function(){
@@ -193,42 +196,42 @@ include($iniUrl . 'dtload.php');
                       });
                       
 											
-											// Seleccionar para Modificar
-											$('#usuarios').on( 'select.dt', function () {
-													var usr_val = tabla.cell('.selected', 0).data();
-													var usr_nombre = tabla.cell('.selected', 1).data();
-													var usr_id = tabla.cell('.selected', 4).data();
-													
-													tabla.button(1).action( function( e, dt, button, config ) {
-															window.location.href = "usr-cc.php?Id=" + usr_id;
-													} );
-													tabla.button(2).action( function( e, dt, button, config ) {
-															window.location.href = "eliminar.php?Id=" + usr_id + "&Nombre=" + usr_nombre;
-													} );
-													tabla.button(3).action( function( e, dt, button, config ) {
-															var parametros = {
-																	"usuario" : usr_id,
-																	"estado" : usr_val
-															};														
-															$.ajax({
-																	data:  parametros,
-																	url:   'usr-st.php',
-																	type:  'post',
-																	//beforeSend: function () {
-																	//				$("#resultado").html("Procesando, espere por favor...");
-																	//},
-																	success:  function (response) {
-																			tabla.cell('.selected', 0).data(response).draw();
-																	}
-															});													
-													} );
-													tabla.buttons([1,2,3]).enable();
-											} );
-											
-											$('#usuarios').on( 'deselect.dt', function () {
-													var usr_id = 0;
-													tabla.buttons([1,2,3]).disable();
-											} );
+					  // Seleccionar para Modificar
+					  $('#usuarios').on( 'select.dt', function () {
+							  var usr_val = tabla.cell('.selected', 0).data();
+							  var usr_nombre = tabla.cell('.selected', 1).data();
+							  var usr_id = tabla.cell('.selected', 5).data();
+							  
+							  tabla.button(1).action( function( e, dt, button, config ) {
+									  window.location.href = "usr-cc.php?Id=" + usr_id;
+							  } );
+							  tabla.button(2).action( function( e, dt, button, config ) {
+									  window.location.href = "usr-bu.php?Id=" + usr_id + "&Nombre=" + usr_nombre;
+							  } );
+							  tabla.button(3).action( function( e, dt, button, config ) {
+							  var parametros = {
+									  "usuario" : usr_id,
+									  "estado" : usr_val
+							  };														
+							  $.ajax({
+									  data:  parametros,
+									  url:   'usr-st.php',
+									  type:  'post',
+									  //beforeSend: function () {
+									  //				$("#resultado").html("Procesando, espere por favor...");
+									  //},
+									  success:  function (response) {
+											  tabla.cell('.selected', 0).data(response).draw();
+									  }
+							  });													
+							  } );
+							  tabla.buttons([1,2,3]).enable();
+					  } );
+					  
+					  $('#usuarios').on( 'deselect.dt', function () {
+							  var usr_id = 0;
+							  tabla.buttons([1,2,3]).disable();
+					  } );
         
           
                   });

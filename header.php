@@ -23,11 +23,11 @@ $level = $_SESSION['levelSession'];
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Mesa de Entradas</title>
-	
+
 	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo $iniUrl;?>img/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo $iniUrl;?>img/favicon-96x96.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo $iniUrl;?>img/favicon-16x16.png">
-	
+
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo $iniUrl;?>bootstrap/css/bootstrap.css">
@@ -35,18 +35,18 @@ $level = $_SESSION['levelSession'];
   <link rel="stylesheet" href="<?php echo $iniUrl;?>bootstrap/css/font-awesome.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo $iniUrl;?>css/AdminLTE.css">
-  <link rel="stylesheet" href="<?php echo $iniUrl;?>css/skins/skin-blue.min.css">
-	
+  <link rel="stylesheet" href="<?php echo $iniUrl;?>css/skins/skin-red.min.css">
+
 	<link rel="stylesheet" href="<?php echo $iniUrl;?>css/SourceSansPro.css">
-  
+
   <!-- REQUIRED JS SCRIPTS -->
-  
+
   <!-- jQuery 2.2.3 -->
   <script src="<?php echo $iniUrl;?>plugins/jQuery/jquery-2.2.3.min.js"></script>
   <!-- Bootstrap 3.3.6 -->
   <script src="<?php echo $iniUrl;?>bootstrap/js/bootstrap.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="<?php echo $iniUrl;?>js/app.min.js"></script>  
+  <script src="<?php echo $iniUrl;?>js/app.min.js"></script>
 
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -54,7 +54,7 @@ $level = $_SESSION['levelSession'];
   <![endif]-->
 </head>
 
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+<body class="hold-transition skin-red sidebar-collapse sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -63,9 +63,9 @@ $level = $_SESSION['levelSession'];
     <!-- Logo -->
     <a href="<?php echo $iniUrl;?>index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>ME</b></span>
+      <span class="logo-mini"><b>SE</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">Mesa de <b>Entradas</b></span>
+      <span class="logo-lg">Sistema de <b>Gestión</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -99,7 +99,7 @@ $level = $_SESSION['levelSession'];
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="btn-group btn-group-justified">
-                
+
                   <a href="<?php echo $iniUrl;?>usr-profile.php?Id=<?php echo $_SESSION['userSession'];?>" class="btn btn-default"><i class="fa fa-user" style="margin-right: 10px;"></i> <span>Perfil</span></a>
 
                   <a href="<?php echo $iniUrl;?>logout.php?logout=true" class="btn btn-default"><i class="fa fa-sign-out" style="margin-right: 10px;"></i> <span>Salir</span></a>
@@ -107,7 +107,7 @@ $level = $_SESSION['levelSession'];
               </li>
             </ul>
           </li>
-          <!-- Control Sidebar Toggle Button 
+          <!-- Control Sidebar Toggle Button
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
           </li>-->
@@ -125,22 +125,34 @@ $level = $_SESSION['levelSession'];
       <ul class="sidebar-menu">
         <li class="header">NAVEGACION PRINCIPAL</li>
         <!-- Optionally, you can add icons to the links -->
-        
+
         <li>
         	<a href="<?php echo $iniUrl;?>index.php"><i class="fa fa-home"></i> <span>Inicio</span></a>
         </li>
-		
-		<?php
-		if ($level < 3) { ?>
-		
+
+
         <li class="treeview">
           <a href="<?php echo $iniUrl . 'expedientes/'; ?>"><i class="fa fa-file-text"></i> <span>Expedientes</span></a>
         </li>
 
-       
+		<?php
+		if ($level < 3) { ?>
+
         <li>
-        	<a href="<?php echo $iniUrl . 'solicitantes/'; ?>"><i class="fa fa-archive"></i> <span>Solicitantes</span></a>
+        	<a href="<?php echo $iniUrl . 'clientes/'; ?>"><i class="fa fa-users"></i> <span>Clientes</span></a>
         </li>
+
+        <li class="treeview">
+          <a href="#"><i class="fa fa-file"></i> <span>Informes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="<?php echo $iniUrl . 'expedientes/qr-masivo.php'; ?>"><i class="fa fa-circle-o"></i> Códigos QR</a></li>
+          </ul>
+        </li>
+
         <li class="header">OPCIONES GENERALES</li>
 				<li>
         	<a href="<?php echo $iniUrl;?>config.php"><i class="fa fa-gear"></i> <span>Configuraci&oacute;n</span></a>
@@ -148,13 +160,13 @@ $level = $_SESSION['levelSession'];
         <li>
         	<a href="<?php echo $iniUrl;?>includes/db_backup.php"><i class="fa fa-download"></i> <span>Backup de Datos</span></a>
         </li>
-        
+
         <li>
            <a href="<?php echo $iniUrl . 'adm/'; ?>"><i class="fa fa-user"></i> <span>Usuarios</span></a>
         </li>
         <?php
 		} ?>
-                
+
       </ul>
       <!-- /.sidebar-menu -->
     </section>

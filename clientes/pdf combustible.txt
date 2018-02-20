@@ -1,0 +1,24 @@
+$todo = $pdf->getPageWidth();
+$margen = $pdf->getMargins();
+$todo = $todo - $margen['left'] - $margen['right'];
+$pdf->SetFont('helvetica', '', 12);
+$div = intval($todo) / 2;
+$pdf->Image('../img/logo-cab.jpg', $margen['left'], $margen['top'], 70, 10.5, 'JPG', '', '', true, 300, '', false, false, 0, false, false, false);
+
+$pdf->Cell($todo, 0, date('d/m/Y'), 0, 0, 'R', 0, '', 0);
+$pdf->Ln(12);
+
+$pdf->SetFont('helvetica', '', 16);
+$html = 'Informe de Combustible Entregado por Per&iacute;odo';
+
+$pdf->writeHTMLCell(0, 0, '', '', $html, '', 1, false, true, 'C', true);
+$pdf->Ln(3);
+
+$pdf->SetFont('helvetica', '', 12);
+$div = intval($todo) / 5;
+$pdf->Cell($div, 0, 'Fecha', 1, 0, 'C', 0, '', 0);
+$pdf->Cell($div, 0, 'Gasoil | Lts', 1, 0, 'C', 0, '', 0);
+$pdf->Cell($div, 0, 'Nafta | Lts', 1, 0, 'C', 0, '', 0);
+$pdf->Cell($div, 0, 'Subtotal', 1, 0, 'C', 0, '', 0);
+$pdf->Cell($div, 0, 'Subtotal', 1, 0, 'C', 0, '', 0);
+$pdf->Ln(8);

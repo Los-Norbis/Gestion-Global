@@ -6,12 +6,12 @@ if (!empty($_POST) ) {
 		//die();
     /*
      * Database Configuration and Connection using mysqli
-     */
+
+
     define("HOST", "localhost");
-		define("USER", "root"); 			// The database username.
-		define("PASSWORD", ""); 	// The database password.
-		define("DB", "pqme");
-    define("MyTable", "me_expedientes");
+    define("USER", "root");
+    define("PASSWORD", "");
+    define("DB", "zarate");
 
     $connection = new mysqli(HOST, USER, PASSWORD, DB);
 		if ($connection->connect_error) {
@@ -19,6 +19,9 @@ if (!empty($_POST) ) {
 		}
 		$connection->set_charset("utf8");
     /* END DB Config and connection */
+
+		include('../includes/db_connect.php');
+		define("TablaActual", "fc_clientes");
 
     /* Useful $_POST Variables coming from the plugin */
     $draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables
@@ -29,7 +32,7 @@ if (!empty($_POST) ) {
     $length = $_POST['length'];//Number of records that the table can display in the current draw
     /* END of POST variables */
 
-    $recordsTotal = count(getData("SELECT * FROM ".MyTable));
+    $recordsTotal = count(getData("SELECT * FROM " . TablaActual));
 
     /* SEARCH CASE : Filtered data */
     if(!empty($_POST['search']['value'])){
@@ -42,43 +45,43 @@ if (!empty($_POST) ) {
         $where = "WHERE ".implode(" OR " , $where);// id like '%searchValue%' or name like '%searchValue%' ....
         /* End WHERE */
 
-        $sql = sprintf("SELECT * FROM %s %s", MyTable , $where);//Search query without limit clause (No pagination)
+        $sql = sprintf("SELECT * FROM %s %s", TablaActual , $where);//Search query without limit clause (No pagination)
 
         $recordsFiltered = count(getData($sql));//Count of search result
 
         /* SQL Query for search with limit and orderBy clauses*/
-        $sql = sprintf("SELECT * FROM %s %s ORDER BY %s %s limit %d , %d ", MyTable , $where ,$orderBy, $orderType ,$start,$length  );
+        $sql = sprintf("SELECT * FROM %s %s ORDER BY %s %s limit %d , %d ", TablaActual , $where ,$orderBy, $orderType ,$start,$length  );
         $data = getData($sql);
     }   /* END SEARCH */
 
-		// Busco por Solicitante
-		else if ($_POST['columns'][6]['search']['value'] <> '') {
-				$f_tema = $_POST['columns'][6]['search']['value'];
+		// Busco por Tema
+		else if ($_POST['columns'][3]['search']['value'] <> '') {
+				$f_tema = $_POST['columns'][3]['search']['value'];
 
-        $sql = sprintf("SELECT * FROM %s WHERE Solicitante = %d", MyTable , $f_tema);//Search query without limit clause (No pagination)
+        $sql = sprintf("SELECT * FROM %s WHERE Tema = %d", TablaActual , $f_tema);//Search query without limit clause (No pagination)
         $recordsFiltered = count(getData($sql));//Count of search result
 
         /* SQL Query for search with limit and orderBy clauses*/
-        $sql = sprintf("SELECT * FROM %s WHERE Solicitante = %d ORDER BY %s %s limit %d , %d ", MyTable , $f_tema ,$orderBy, $orderType ,$start,$length  );
+        $sql = sprintf("SELECT * FROM %s WHERE Tema = %d ORDER BY %s %s limit %d , %d ", TablaActual , $f_tema ,$orderBy, $orderType ,$start,$length  );
         $data = getData($sql);
 
 		}
 
 		// Busco por Destino
-		else if ($_POST['columns'][7]['search']['value'] <> '') {
-				$f_tema = $_POST['columns'][7]['search']['value'];
+		else if ($_POST['columns'][4]['search']['value'] <> '') {
+				$f_tema = $_POST['columns'][4]['search']['value'];
 
-				$sql = sprintf("SELECT * FROM %s WHERE Destino = %d", MyTable , $f_tema);//Search query without limit clause (No pagination)
+				$sql = sprintf("SELECT * FROM %s WHERE Destino = %d", TablaActual , $f_tema);//Search query without limit clause (No pagination)
         $recordsFiltered = count(getData($sql));//Count of search result
 
         /* SQL Query for search with limit and orderBy clauses*/
-        $sql = sprintf("SELECT * FROM %s WHERE Destino = %d ORDER BY %s %s limit %d , %d ", MyTable , $f_tema ,$orderBy, $orderType ,$start,$length  );
+        $sql = sprintf("SELECT * FROM %s WHERE Destino = %d ORDER BY %s %s limit %d , %d ", TablaActual , $f_tema ,$orderBy, $orderType ,$start,$length  );
         $data = getData($sql);
 
 		}
 
     else {
-        $sql = sprintf("SELECT * FROM %s ORDER BY %s %s limit %d , %d ", MyTable ,$orderBy,$orderType ,$start , $length);
+        $sql = sprintf("SELECT * FROM %s ORDER BY %s %s limit %d , %d ", TablaActual ,$orderBy,$orderType ,$start , $length);
         $data = getData($sql);
 
         $recordsFiltered = $recordsTotal;
@@ -91,7 +94,7 @@ if (!empty($_POST) ) {
         "recordsFiltered" => $recordsFiltered,
         "data" => $data
     );
-		//print_r($data);
+		// print_r($data);
     echo json_encode($response);
 
 } else {
@@ -105,12 +108,10 @@ if (!empty($_POST) ) {
  */
 function getData($sql){
 
-		global $connection;//we use connection already opened
-		$resultado = $connection->query($sql);
+		global $mysqli;//we use connection already opened
+		$resultado = $mysqli->query($sql);
 		$data = array();
 		while ($row = $resultado->fetch_array(MYSQLI_ASSOC)) {
-				$row["Solicitante"] = buscar_tema ($row["Solicitante"]);
-				$row["Destino"] = buscar_destino ($row["Destino"]);
 				$data[] = $row ;
 
 				// print_r($row);
@@ -121,10 +122,10 @@ function getData($sql){
 
 function buscar_tema($indice) {
 	global $connection ;
-	$t_sql = sprintf("SELECT * FROM fc_clientes WHERE Id = %d ", $indice);
+	$t_sql = sprintf("SELECT * FROM me_tema_nt WHERE Id = %d ", $indice);
 	if ($t_query = $connection->query($t_sql)) {
 		$fila = $t_query->fetch_row();
-		return $fila[2];
+		return $fila[1];
 	} else {
 		return "Error...";
 	}
@@ -132,7 +133,7 @@ function buscar_tema($indice) {
 
 function buscar_destino($indice) {
 	global $connection ;
-	$t_sql = sprintf("SELECT * FROM me_destino_exp WHERE Id = %d ", $indice);
+	$t_sql = sprintf("SELECT * FROM me_destino_nt WHERE Id = %d ", $indice);
 	if ($t_query = $connection->query($t_sql)) {
 		$fila = $t_query->fetch_row();
 		return $fila[1];

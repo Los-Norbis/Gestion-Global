@@ -2,12 +2,14 @@
 $iniUrl = '../';
 include($iniUrl . 'header.php');
 //include_once '../lib/password.php';
+$maxlevel = $_GET['ml'];
 
 if(isset($_POST['btn-signup'])) {
 	$name = $mysqli->real_escape_string(trim($_POST['m_name']));
 	$email = $mysqli->real_escape_string(trim($_POST['m_email']));
 	$password = $mysqli->real_escape_string(trim($_POST['m_password']));
 	$level = trim($_POST['m_level']);
+	$area = trim($_POST['m_destino']);
 	
 	$new_password = password_hash($password, PASSWORD_DEFAULT);
 	$result = $mysqli->query("SELECT user_email FROM usuarios WHERE user_email='$email'");
@@ -23,12 +25,8 @@ if(isset($_POST['btn-signup'])) {
 	} else {
 
 		// die($name . ' ' . $email . ' ' . $new_password);
-		$query = $mysqli->prepare("INSERT INTO usuarios(user_name,user_email,user_password,user_level) VALUES (?,?,?,?)");
-		$query->bind_param('sssi',
-		$name,
-		$email,
-		$new_password,
-		$level);
+		$query = $mysqli->prepare("INSERT INTO usuarios(user_name,user_email,user_password,user_level,user_area) VALUES (?,?,?,?,?)");
+		$query->bind_param('sssii', $name, $email, $new_password, $level, $area);
 
 		if($query->execute()) {
 				$msg = '<div class="alert alert-success"><i class="fa fa-check"></i> &nbsp; ' . $name . ' ha completado el registro.</div>';
@@ -54,6 +52,17 @@ if(isset($_POST['btn-signup'])) {
 	<?php
 	exit;	
 
+} else {
+	
+	$sql = "SELECT ALL Id, Nombre FROM me_destino_exp";
+	if (!$tbl_destinos = $mysqli->query($sql)) {
+			// ¡Oh, no! La consulta falló. 
+			echo "<h2>Error en la Consulta SQL | Destino.</h2>";
+			exit;
+	}
+
+	$mysqli->close();
+	
 }
 ?>
 
@@ -61,7 +70,7 @@ if(isset($_POST['btn-signup'])) {
 
 	<?php  
   $userlevel = $_SESSION['levelSession'];
-	if ($userlevel <> 1) {
+	if ($userlevel > 2) {
 		?>
 			<section class="content">	
 				<div class="col-md-12">
@@ -120,16 +129,34 @@ if(isset($_POST['btn-signup'])) {
                 </span>
               	<input type="password" class="form-control" placeholder="Contraseña" name="m_password" required  />
               </div>
+
+              <!-- Destino -->
+              <div class="form-group">
+              <div class="input-group" style="margin: 10px 0 20px;">
+                <span class="input-group-addon">
+                  <i class="fa fa-unlock-alt" style="width: 16px;"></i>
+                </span>
+                  
+                <select required class="form-control" name="m_destino" id="destino" required>
+                    <option value="">Area del Usuario</option>
+                    <?php
+                    while ($destinos = $tbl_destinos->fetch_assoc()) {
+                        echo '<option value=' . $destinos['Id'] . '>' . $destinos['Nombre'] . '</option>';
+                    }
+                    ?>
+                </select>
+                  
+              </div>
+
               
               <div class="form-group">
-              
 
                 <div class="btn-group btn-group-justified" data-toggle="buttons" id="prior">
-                    <label class="btn btn-primary">
+                    <label class="btn btn-primary <?php echo ($maxlevel > 1 ? 'disabled' : ''); ?>">
                         <input type="radio" name="m_level" value="1">Super Usuario
                     </label>
-                    <label class="btn btn-primary">
-                        <input type="radio" name="m_level" value="2">Especial
+                    <label class="btn btn-primary <?php echo ($maxlevel > 2 ? 'disabled' : ''); ?>">
+                        <input type="radio" name="m_level" value="2" />Especial
                     </label>
                     <label class="btn btn-primary active">
                         <input type="radio" name="m_level" value="3" checked="checked">Normal

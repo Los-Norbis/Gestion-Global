@@ -5,8 +5,8 @@ include($iniUrl . 'header.php');
 $usuario = $_SESSION['userSession'];
 
 if (isset($_POST['btn-signup'])) {
-	
-	$ingreso = $mysqli->real_escape_string(trim($_POST['fecha']));	
+
+	$ingreso = $mysqli->real_escape_string(trim($_POST['fecha']));
 	$periodo = $_POST['periodo'];
 	$numero = $_POST['NumeroExp'];
 	$alcance = 0;
@@ -15,17 +15,17 @@ if (isset($_POST['btn-signup'])) {
 	$caratula = $_POST['motivo'];
 	$ubicacion = $_POST['destino'];
 	$archivo = $_POST['archivo'];
-	$notas = $_POST['notas'];	
+	$notas = $_POST['notas'];
 
 	// die($name . ' ' . $email . ' ' . $new_password);
-	
-	
-	
+
+
+
 	$query = $mysqli->prepare("INSERT INTO me_expedientes(Ingreso, Orden, Alcance, Cuerpo, Archivo, Solicitante, Caratula, Destino, Notas) VALUES (?,?,?,?,?,?,?,?,?)");
 	$orden = $periodo . $numero;
 	$query->bind_param('ssiisisis', $ingreso, $orden, $alcance, $cuerpo, $archivo, $solicitante, $caratula, $ubicacion, $notas);
-	
-	
+
+
 	// Crear Expediente en DB
 	if($query->execute()) {
 		$query->close();
@@ -33,16 +33,16 @@ if (isset($_POST['btn-signup'])) {
 		echo '<div class="alert alert-danger"><i class="fa fa-ban"></i> &nbsp; Ha ocurrido un error al salvar Nuevo Expediente... error: ' . $query->error . '</div>';
 		exit;
 	}
-	
+
 	// Crea Movimiento
 	$dateTime = new DateTime("now", new DateTimeZone('America/Argentina/Buenos_Aires'));
 	$add_date = $dateTime->format("Y-m-d H:i:s");
-	$fecha = $add_date;	
+	$fecha = $add_date;
 	$nota = 'Alta de Expediente';
 	$sql = "INSERT INTO me_ruta_exp (Orden, Usuario, Fecha, Destino, Notas) VALUES (?, ?, ?, ?, ?)";
 	$stmt = $mysqli->prepare($sql);
 	$stmt->bind_param('sisis', $orden, $usuario, $fecha, $ubicacion, $nota);
-		
+
 	if($stmt->execute()) {
 		$stmt->close();
 	}	else {
@@ -51,16 +51,16 @@ if (isset($_POST['btn-signup'])) {
 	}
 
 	$mysqli->close();
-		
+
 	?>
     <div class="content-wrapper">
       <section class="content-header">
         <h1>Nuevo Expediente | Car&aacute;tula</h1>
-      </section>    
+      </section>
     	<section class="content">
-        
+
 			<div class="row">
-        
+
         	  <form action="caratula.php" method="post" target="_blank">
                   <input type="hidden" name="ingreso" value="<?php echo $ingreso; ?>" />
                   <input type="hidden" name="periodo" value="<?php echo $periodo; ?>" />
@@ -76,12 +76,12 @@ if (isset($_POST['btn-signup'])) {
                 	<div class="callout callout-info">
 						<i class="fa fa-exclamation-circle"></i> &nbsp; El Expediente ha sido creado exitosamente...
 					</div>
-					<button type="button" class="btn btn-default" onclick="location.href='../index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>								
+					<button type="button" class="btn btn-default" onclick="location.href='../index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
 					<button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><span class="glyphicon glyphicon-save"></span> Imprimir Car&aacute;tula</button>
-				</div>                                  
+				</div>
               </form>
-            </div>      
-        
+            </div>
+
         </section>
     </div>
 
@@ -93,13 +93,13 @@ if (isset($_POST['btn-signup'])) {
 } else {
 
 
-	$sql = "SELECT ALL Id, Nombre FROM me_solicitantes";
+	$sql = "SELECT ALL Id, Nombre FROM fc_clientes";
 	if (!$tbl_temas = $mysqli->query($sql)) {
 			echo "<h2>Error en la Consulta SQL | Solicitantes.</h2>";
 			exit;
 	}
 
-	
+
 	$sql = "SELECT Orden FROM me_expedientes ORDER BY Orden DESC";
 	if (!$tbl_mayor = $mysqli->query($sql)) {
 			echo "<h2>Error en la Consulta SQL | Expedientes.</h2>";
@@ -111,7 +111,7 @@ if (isset($_POST['btn-signup'])) {
 	}
 
 	// Obtener Area actual
-	
+
 	$sql = "SELECT user_area FROM usuarios WHERE user_id = " . $usuario;
 	if ($t_query = $mysqli->query($sql)) {
 			$fila = $t_query->fetch_row();
@@ -120,7 +120,7 @@ if (isset($_POST['btn-signup'])) {
 			echo "<h2>Error en la Consulta SQL | Usuarios.</h2>";
 			exit;
 	}
-	
+
 	$sql = "SELECT Nombre FROM me_destino_exp WHERE ID = " . $destino;
 	if ($t_query = $mysqli->query($sql)) {
 			$fila = $t_query->fetch_row();
@@ -128,35 +128,35 @@ if (isset($_POST['btn-signup'])) {
 	} else {
 			echo "<h2>Error en la Consulta SQL | Destinos.</h2>";
 			exit;
-	}	
+	}
 
 	//var_dump($destino_nombre);
 	//die();
-	
+
 	$mysqli->close();
 }
 ?>
-  
+
 	<style>
 		#alerta {
 			font-size: 24px;
 			text-align: right;
 		}
 	</style>
-  
+
   <script type="text/javascript">
 	$(document).ready(function(){
-                         
+
 		//comprobamos si se pulsa una tecla
 		$("#NumeroExpAnt").focusout(function(e){
-				
+
 			var consulta = $("#periodo").val() + pad($("#NumeroExpAnt").val(),4);
 			if ($("#NumeroExpAnt").val() > 0) {
 				 //hace la búsqueda
-				$("#alerta").delay(1000).queue(function(n) {      
-																			 
+				$("#alerta").delay(1000).queue(function(n) {
+
 					$("#alerta").html('<i class="fa fa-spinner"></i>');
-																	 
+
 					$.ajax({
 						type: "POST",
 						url: "chk-na.php",
@@ -171,9 +171,9 @@ if (isset($_POST['btn-signup'])) {
 							if (data.codigo == 0) {
 								$("#NumeroExpAnt").val('');
 								$("#myModal").modal();
-								
+
 								//
-								
+
 							} else {
 								$("#NumeroExp").val(pad($("#NumeroExpAnt").val(),4));
 								$("#NuevoNumero").html('<h4>' + pad($("#NumeroExpAnt").val(),4) + '</h4>');
@@ -181,21 +181,21 @@ if (isset($_POST['btn-signup'])) {
 							n();
 						}
 					});
-																			 
+
 				});
 			} else {
 				$("#alerta").html('');
 			}
-															
+
 		});
-														
+
 	});
-	
+
 	function pad (str, max) {
   	str = str.toString();
   	return str.length < max ? pad("0" + str, max) : str;
 	}
-	
+
 </script>
 
 <!-- Modal -->
@@ -215,14 +215,14 @@ if (isset($_POST['btn-signup'])) {
     </div>
   </div>
 </div>
-  
+
 <div class="content-wrapper">
 
-	<?php  
+	<?php
   $userlevel = $_SESSION['levelSession'];
 	if ($userlevel > 2) {
 		?>
-			<section class="content">	
+			<section class="content">
 				<div class="col-md-12">
 					<div class="callout callout-danger">
 						<i class="fa fa-lock"></i> &nbsp; <strong>Acceso Denegado...</strong> <?php echo $_SESSION['nameSession'];?> no tiene privilegios para acceder a estas funciones.
@@ -233,7 +233,7 @@ if (isset($_POST['btn-signup'])) {
 		exit;
 	}
 	?>
-  
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>Nuevo Expediente</h1>
@@ -241,25 +241,25 @@ if (isset($_POST['btn-signup'])) {
 
   <!-- Main content -->
   <section class="content">
-	
+
 		<div class="row">
 			<div class="col-md-9">
-				
+
 				<div class="box box-info">
 						<div class="box-header with-border">
 								<h3 class="box-title pull-left">Nuevo Expediente: <?php echo date('Y') . ' | ' . $nuevonumero; ?></h3>
 								<span class="text-muted pull-right"><small></small></span>
 						</div>
-					<div class="box-body">	
-  	
+					<div class="box-body">
+
     					<form method="post" id="nuevo-form" class="form-horizontal" role="form">
-    
-      
+
+
 							<!-- Fecha Ingreso -->
 							<div class="form-group">
-							
+
 								<label for="ingreso" class="col-md-3 control-label">Fecha:</label>
-								
+
 								<div class="col-md-9">
 									<div class="input-group date form_linkin" data-date="" data-link-field="fecha" >
 											<input class="form-control" type="text" value="" required pattern="(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d">
@@ -268,14 +268,14 @@ if (isset($_POST['btn-signup'])) {
 									</div>
 									<input type="hidden" id="fecha" name="fecha" value="" />
 								</div>
-								
+
 							</div>
-				
+
 							<div class="form-group">
-							
-							<!-- Año DE -->    
+
+							<!-- Año DE -->
 								<label for="periodo" class="col-md-3 control-label">Año:</label>
-								
+
 								<div class="col-md-3">
 									<div class="input-group date form_periodo" data-date="" data-link-field="" >
 										<input class="form-control" type="text" id="periodo" name="periodo" value="<?php echo date('Y'); ?>" required pattern="(19|20)\d\d">
@@ -283,8 +283,8 @@ if (isset($_POST['btn-signup'])) {
 										<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="col-md-2">
 									<div id="NuevoNumero">
 										<h4 ><?php echo $nuevonumero; ?></h4>
@@ -297,36 +297,36 @@ if (isset($_POST['btn-signup'])) {
 								<div class="col-md-3">
 									<input type="number" class="form-control" name="NumeroExpAnt" id="NumeroExpAnt" placeholder="Numero Anterior..." data-toggle="tooltip" title="Tenga en cuenta que el Año seleccionado sea el correcto antes de ingresar un Numero Anterior...">
 								</div>
-				
+
 							</div>
-				
+
 							<!-- Alcance y Cuerpo -->
 							<div class="form-group">
-							
+
 								 <label class="col-md-3 control-label" for="alcance">Alcance:</label>
-								
+
 								<div class="col-md-3">
 									<div class="input-group">
 											<input type="number" class="form-control" name="alcance" id="alcance" value="0"  disabled >
 									</div>
 								</div>
-								
+
 								<label class="col-md-3 control-label" for="cuerpo">Cuerpo:</label>
-								
+
 								 <div class="col-md-3">
 									<div class="input-group">
 											<input type="number" class="form-control" name="cuerpo" id="cuerpo" placeholder="Numero" >
 									</div>
 								</div>
-								
+
 							</div>
-							
-							
+
+
 							<!-- Tema -->
 							<div class="form-group">
-							
+
 								<label class="col-md-3 control-label" for="solicitante">Solicitante:</label>
-								
+
 								<div class="col-md-9">
 									<div>
 										<select required class="form-control" name="solicitante" id="solicitante">
@@ -339,60 +339,60 @@ if (isset($_POST['btn-signup'])) {
 										</select>
 									</div>
 								</div>
-								
+
 							</div>
-							
+
 							<!-- Tema -->
 							<div class="form-group">
-							
+
 								<label class="col-md-3 control-label" for="motivo">Caratula:</label>
-								
+
 								<div class="col-md-9">
 									<textarea class="form-control" rows="3" name="motivo" id="motivo"></textarea>
 								</div>
 							</div>
-							
+
 							<!-- Destino -->
 							<div class="form-group">
-							
+
 								<label class="col-md-3 control-label" for="n_destino">Ubicaci&oacute;n:</label>
-								
+
 								<div class="col-md-9">
                                     <input type="text" class="form-control" name="n_destino" id="n_destino" value="<?php echo $destino_nombre;?>" disabled>
 								</div>
-								
+
 							</div>
-							
+
 							<!-- Notas -->
 							<div class="form-group">
-							
+
 								<label class="col-md-3 control-label" for="notas">Notas:</label>
-								
+
 								<div class="col-md-9">
 									<textarea class="form-control" rows="3" name="notas" id="notas"></textarea>
 								</div>
 							</div>
-							
+
 							<!-- Archivo -->
 							<div class="form-group">
-							
+
 								 <label class="col-md-3 control-label" for="archivo">Archivo:</label>
-								
+
 								<div class="col-md-9">
 									<input type="text" class="form-control" name="archivo" id="archivo" placeholder="" >
 								</div>
-								
-							</div>			
-							
-							
+
+							</div>
+
+
 							<div class="col-md-12">
 								<input type="hidden" name="tarea" value="0" />
-								<button type="button" class="btn btn-default" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>								
+								<button type="button" class="btn btn-default" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
 								<button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><span class="glyphicon glyphicon-save"></span> Agregar Expediente</button>
                                 <input type="hidden" name="destino" value="<?php echo $destino;?>" />
 							</div>
-							
-						
+
+
 						</form>
 
           </div>
@@ -403,7 +403,7 @@ if (isset($_POST['btn-signup'])) {
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-    
+
   <link href="<?php echo $iniUrl;?>css/malo/bootstrap-datetimepicker.min.css" rel="stylesheet">
   <script type="text/javascript" src="<?php echo $iniUrl;?>js/malo/bootstrap-datetimepicker.js" charset="UTF-8"></script>
   <script type="text/javascript" src="<?php echo $iniUrl;?>js/malo/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
@@ -435,7 +435,7 @@ if (isset($_POST['btn-signup'])) {
       forceParse: 0,
       format: "yyyy",
   });
-	
+
 	function upperCaseF(a){
     setTimeout(function(){ a.value = a.value.toUpperCase(); }, 1);
 	}

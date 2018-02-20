@@ -10,23 +10,23 @@ if (empty($_GET)) {
   $caratula = $_POST['caratula'];
   $solicitante = $_POST['solicitante'];
   $notas = $_POST['notas'];
-  
+
   $id = $periodo . $numero;
 } else {
 	$orden = $_GET['Id'];
 	$alcance = $_GET['Alcance'];
 	$sql = "SELECT * FROM me_expedientes WHERE Orden = " . $orden . " AND Alcance = " . $alcance;
 	if (!$resultado = $mysqli->query($sql)) {
-			// ¡Oh, no! La consulta falló. 
+			// ¡Oh, no! La consulta falló.
 			echo '<h2>Error... Expediente no encontrado (Orden: ' . $orden . '</h2>';
 			exit;
 	} else {
 			$a_exp = $resultado->fetch_assoc();
 			$periodo = substr($a_exp['Orden'], 0, 4);
 			$numero  = substr($a_exp['Orden'], 4, 4);
-	}	
+	}
 
-	
+
 	$ingreso = $a_exp['Ingreso'];
 	$alcance = $a_exp['Alcance'];
 	$cuerpo = $a_exp['Cuerpo'];
@@ -34,12 +34,12 @@ if (empty($_GET)) {
 	$solicitante = $a_exp['Solicitante'];
 	$notas = $a_exp['Notas'];
 	$id = $periodo . $numero;
-	//var_dump($a_exp);	
+	//var_dump($a_exp);
 	//die();
 }
 
 
-$sql = "SELECT * FROM me_solicitantes WHERE Id = " . $solicitante;
+$sql = "SELECT * FROM fc_clientes WHERE Id = " . $solicitante;
 if ($resultado = $mysqli->query($sql)) {
 	$fila = $resultado->fetch_row();
 }
@@ -160,7 +160,7 @@ if (!empty($notas)) {
 	$pdf->SetTextColor(255,255,255);
 	$pdf->SetFont('neuehaas', '', 16);
 	$pdf->Text(22, $act_y,'OBSERVACIONES');
-	
+
 	$pdf->setXY(20, $act_y + 7);
 	$pdf->setCellPaddings(4, 4, 4, 4);
 	$pdf->SetTextColor(0, 0, 0);

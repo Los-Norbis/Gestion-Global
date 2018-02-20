@@ -56,7 +56,7 @@
             },
             flipVertical: false,
             flipHorizontal: false,
-            zoom: 0,
+            zoom: 1,
             beep: 'qr/audio/beep.mp3',
             decoderWorker: 'qr/js/DecoderWorker.js',
             brightness: 0,
