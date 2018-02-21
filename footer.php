@@ -7,7 +7,7 @@
       </a>
     </div>
     <!-- Default to the left -->
-    <strong>&copy; <?php echo date('Y');?> FESCOM.</strong> Todos los derechos reservados.
+    <strong>&copy; <?php echo date('Y');?> Fescom.</strong> Todos los derechos reservados.
   </footer>
 
 </div>
