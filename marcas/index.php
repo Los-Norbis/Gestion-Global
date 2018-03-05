@@ -61,6 +61,24 @@ include($iniUrl . 'dtload.php');
     </section>
     <!-- /.content -->
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="marcaNuevaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Error en Número de Expediente Anterior...</h4>
+        </div>
+        <div class="modal-body">
+          <p>El número de Expediente y Año ingresados <strong>ya está registrado y no puede duplicarse.</strong><br />Por favor ingrese un número que no se encuentre registrado o utilice la numeración automática dejando esta casilla vacia...</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- /.content-wrapper -->
 
               <script type="text/javascript">
@@ -148,7 +166,7 @@ include($iniUrl . 'dtload.php');
 												buttons: [
 													{ text: 'Nuevo',
 															action: function ( e, dt, node, config ) {
-																	window.location.href = "nuevo.php";
+																	$("#marcaNuevaModal").modal();
 															}
 													},
 													{ text: 'Modificar'},
