@@ -134,6 +134,10 @@ $level = $_SESSION['levelSession'];
         	<a href="<?php echo $iniUrl . 'clientes/'; ?>"><i class="fa fa-users"></i> <span>Clientes</span></a>
         </li>
 
+        <li>
+        	<a href="<?php echo $iniUrl . 'marcas/'; ?>"><i class="fa fa-copyright"></i> <span>Marcas</span></a>
+        </li>
+
         <li class="treeview">
           <a href="#"><i class="fa fa-file"></i> <span>Informes</span>
             <span class="pull-right-container">
