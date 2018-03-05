@@ -64,21 +64,68 @@ include($iniUrl . 'dtload.php');
 
   <!-- Modal -->
   <div class="modal fade" id="marcaNuevaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Error en Número de Expediente Anterior...</h4>
-        </div>
-        <div class="modal-body">
-          <p>El número de Expediente y Año ingresados <strong>ya está registrado y no puede duplicarse.</strong><br />Por favor ingrese un número que no se encuentre registrado o utilice la numeración automática dejando esta casilla vacia...</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background:#3c8dbc; color:white">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Administrador de Categorías</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+
+                    <div class="input-group" style="margin: 10px 0 20px;">
+                      <span class="input-group-addon">
+                        <i class="fa fa-user" style="width: 16px;"></i>
+                      </span>
+          	          <input type="text" class="form-control" placeholder="Nombre" name="m_nom" required  autofocus/>
+                    </div>
+
+                    <div class="input-group" style="margin: 10px 0 20px;">
+                      <span class="input-group-addon">
+                        <i class="fa fa-hashtag" style="width: 16px;"></i>
+                      </span>
+                      <input type="text" class="form-control" placeholder="N&deg; de CUIT" name="m_cuit" maxlength="13"  />
+                    </div>
+
+                    <div class="input-group" style="margin: 10px 0 20px;">
+                      <span class="input-group-addon">
+                        <i class="fa fa-phone" style="width: 16px;"></i>
+                      </span>
+                    	<input type="text" class="form-control" placeholder="Tel&eacute;fono" name="m_tel"   />
+                    </div>
+
+                    <div class="input-group" style="margin: 10px 0 20px;">
+                      <span class="input-group-addon">
+                        <i class="fa fa-map-marker" style="width: 16px;"></i>
+                      </span>
+                    	<input type="text" class="form-control" placeholder="Direcci&oacute;n" name="m_dir" />
+                    </div>
+
+                    <div class="input-group" style="margin: 10px 0 20px;">
+                      <span class="input-group-addon">
+                        <i class="fa fa-envelope" style="width: 16px;"></i>
+                      </span>
+                    	<input type="email" class="form-control" placeholder="Email" name="m_email" />
+                    </div>
+
+                    <div class="form-group">
+                    	<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
+                      <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Categoría</button>
+                    </div>
+
+                  </form>
+
+                </div>
+        			</div>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
+</div>
+
   <!-- /.content-wrapper -->
 
               <script type="text/javascript">
