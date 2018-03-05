@@ -135,6 +135,10 @@ $level = $_SESSION['levelSession'];
         </li>
 
         <li>
+        	<a href="<?php echo $iniUrl . 'stock/'; ?>"><i class="fa fa-tags"></i> <span>Articulos</span></a>
+        </li>
+
+        <li>
         	<a href="<?php echo $iniUrl . 'marcas/'; ?>"><i class="fa fa-copyright"></i> <span>Marcas</span></a>
         </li>
 
