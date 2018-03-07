@@ -132,7 +132,7 @@ include($iniUrl . 'dtload.php');
                           "processing": true,
                           "serverSide": true,
                           "ajax": {
-                              "url": 'dt_transportes.php',
+                              "url": 'dt_marcas.php',
                               "type": "POST"
                           },
 
