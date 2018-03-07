@@ -35,17 +35,6 @@ include($iniUrl . 'dtload.php');
                   </tr>
                   </thead>
 
-                  <tfoot>
-                  <tr>
-                      <th data-priority="1">Nombre</th>
-											<th>Tipo</th>
-                      <th>CUIT</th>
-                      <th>Tel&eacute;fono</th>
-                      <th>Email</th>
-                      <th>Id</th>
-                  </tr>
-                  </tfoot>
-
               </table>
 
             </div>
