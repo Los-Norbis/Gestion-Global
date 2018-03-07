@@ -30,6 +30,12 @@ include($iniUrl . 'dtload.php');
                       <th>Id</th>
                   </tr>
                   </thead>
+                  <tbody>
+                  <tr>
+                      <th data-priority="1">FESCOM</th>
+                      <th>0001</th>
+                  </tr>
+                </tbody>
 
               </table>
 
