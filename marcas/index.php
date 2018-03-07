@@ -27,10 +27,6 @@ include($iniUrl . 'dtload.php');
                   <thead>
                   <tr>
                       <th data-priority="1">Marca</th>
-											<th>Tipo</th>
-                      <th>CUIT</th>
-                      <th>Tel&eacute;fono</th>
-                      <th>Email</th>
                       <th>Id</th>
                   </tr>
                   </thead>
