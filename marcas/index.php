@@ -26,7 +26,7 @@ include($iniUrl . 'dtload.php');
               <table cellpadding="0" cellspacing="0" id="trans" class="table nowrap table-striped table-bordered table-hover report" width="100%">
                   <thead>
                   <tr>
-                      <th data-priority="1">Nombre</th>
+                      <th data-priority="1">Marca</th>
 											<th>Tipo</th>
                       <th>CUIT</th>
                       <th>Tel&eacute;fono</th>
@@ -57,7 +57,7 @@ include($iniUrl . 'dtload.php');
     <div class="modal-content">
       <div class="modal-header" style="background:#3c8dbc; color:white">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Administrador de Categorías</h4>
+        <h4 class="modal-title" id="myModalLabel">Administrador de Marcas</h4>
       </div>
       <div class="modal-body">
         <div class="row">
