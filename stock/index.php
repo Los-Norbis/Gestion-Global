@@ -8,7 +8,7 @@ include($iniUrl . 'dtload.php');
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Marcas <small>Inicio</small></h1>
+      <h1>Stock <small>Inicio</small></h1>
     </section>
 
     <!-- Main content -->
