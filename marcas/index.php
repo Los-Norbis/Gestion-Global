@@ -67,42 +67,14 @@ include($iniUrl . 'dtload.php');
 
                     <div class="input-group" style="margin: 10px 0 20px;">
                       <span class="input-group-addon">
-                        <i class="fa fa-user" style="width: 16px;"></i>
+                        <i class="fa fa-trademark" style="width: 16px;"></i>
                       </span>
-          	          <input type="text" class="form-control" placeholder="Nombre" name="m_nom" required  autofocus/>
-                    </div>
-
-                    <div class="input-group" style="margin: 10px 0 20px;">
-                      <span class="input-group-addon">
-                        <i class="fa fa-hashtag" style="width: 16px;"></i>
-                      </span>
-                      <input type="text" class="form-control" placeholder="N&deg; de CUIT" name="m_cuit" maxlength="13"  />
-                    </div>
-
-                    <div class="input-group" style="margin: 10px 0 20px;">
-                      <span class="input-group-addon">
-                        <i class="fa fa-phone" style="width: 16px;"></i>
-                      </span>
-                    	<input type="text" class="form-control" placeholder="Tel&eacute;fono" name="m_tel"   />
-                    </div>
-
-                    <div class="input-group" style="margin: 10px 0 20px;">
-                      <span class="input-group-addon">
-                        <i class="fa fa-map-marker" style="width: 16px;"></i>
-                      </span>
-                    	<input type="text" class="form-control" placeholder="Direcci&oacute;n" name="m_dir" />
-                    </div>
-
-                    <div class="input-group" style="margin: 10px 0 20px;">
-                      <span class="input-group-addon">
-                        <i class="fa fa-envelope" style="width: 16px;"></i>
-                      </span>
-                    	<input type="email" class="form-control" placeholder="Email" name="m_email" />
+          	          <input type="text" class="form-control" placeholder="Marca" name="m_nom" required  autofocus/>
                     </div>
 
                     <div class="form-group">
                     	<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-                      <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Categoría</button>
+                      <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Marca</button>
                     </div>
 
                   </form>
