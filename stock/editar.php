@@ -13,7 +13,7 @@ if(isset($_POST['btn-signup'])) {
 	$email = $mysqli->real_escape_string(trim($_POST['m_email']));
 
 	// die($name . ' ' . $email . ' ' . $new_password);
-	$query = $mysqli->prepare("UPDATE clientes SET Nombre = ?, Tipo = ?, Cuit = ?, Telefono = ?, Direccion = ?, Email = ? WHERE Id = ?");
+	$query = $mysqli->prepare("UPDATE fc_clientes SET Nombre = ?, Tipo = ?, Cuit = ?, Telefono = ?, Direccion = ?, Email = ? WHERE Id = ?");
 	$query->bind_param('sissssi', $nom, $tipo, $cuit, $tel, $dir, $email, $id);
 
 	if($query->execute()) {
@@ -27,7 +27,7 @@ if(isset($_POST['btn-signup'])) {
 
 } else {
 	$m_id = $_GET['Id'];
-	$sql = "SELECT * FROM clientes WHERE Id = " . $m_id;
+	$sql = "SELECT * FROM fc_clientes WHERE Id = " . $m_id;
 	if (!$resultado = $mysqli->query($sql)) {
 			// �Oh, no! La consulta fall�.
 			echo '<h2>Error... Transporte no encontrado (Id: ' . $m_id . '</h2>';
@@ -62,7 +62,7 @@ if(isset($_POST['btn-signup'])) {
 
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>Modificar Cliente <small>Id: <?php echo $m_id; ?></small></h1>
+    <h1>Modificar Solicitante <small>Id: <?php echo $m_id; ?></small></h1>
 
   </section>
 
@@ -135,7 +135,7 @@ if(isset($_POST['btn-signup'])) {
               <div class="form-group">
 					      <input type="hidden" name="m_id" value="<?php echo $fila['Id']; ?>" />
               	<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-refresh"></i> &nbsp; Modificar Cliente</button>
+                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-refresh"></i> &nbsp; Modificar Solicitante</button>
               </div>
 
             </form>

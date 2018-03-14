@@ -13,7 +13,7 @@ if(isset($_POST['btn-signup'])) {
 
 
 	// die($name . ' ' . $email . ' ' . $new_password);
-	$query = $mysqli->prepare("INSERT INTO fc_clientes(Nombre, Tipo, Cuit, Telefono, Direccion, Email) VALUES (?,?,?,?,?,?)");
+	$query = $mysqli->prepare("INSERT INTO clientes(Nombre, Tipo, Cuit, Telefono, Direccion, Email) VALUES (?,?,?,?,?,?)");
 	$query->bind_param('sissss', $nom, $tipo, $cuit, $tel, $dir, $email);
 
 	if($query->execute()) {
@@ -122,7 +122,7 @@ if(isset($_POST['btn-signup'])) {
 
               <div class="form-group">
               	<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Solicitante</button>
+                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Cliente</button>
               </div>
 
             </form>

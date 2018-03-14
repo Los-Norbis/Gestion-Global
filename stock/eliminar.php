@@ -7,7 +7,7 @@ include($iniUrl . 'header.php');
 
 if(isset($_POST['btn-signup'])) {
 	// Borra Transporte
-  $query = $mysqli->prepare("DELETE FROM clientes WHERE Id = ?");
+  $query = $mysqli->prepare("DELETE FROM fc_clientes WHERE Id = ?");
 	$query->bind_param('i', $Id);
 
 	if(!$query->execute()) {
@@ -21,10 +21,10 @@ if(isset($_POST['btn-signup'])) {
 
 } else {
 	$Id = $_GET['Id'];
-	$sql = "SELECT * FROM clientes WHERE Id = " . $Id;
+	$sql = "SELECT * FROM fc_clientes WHERE Id = " . $Id;
 	if (!$resultado = $mysqli->query($sql)) {
 			// �Oh, no! La consulta fall�.
-			echo '<h2>Error... Cliente no encontrado (Id: ' . $Id . '</h2>';
+			echo '<h2>Error... Solicitante no encontrado (Id: ' . $Id . '</h2>';
 			exit;
 	} else {
 			$fila = $resultado->fetch_assoc();
@@ -53,7 +53,7 @@ if(isset($_POST['btn-signup'])) {
 
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>Eliminar Cliente <small>Id: <?php echo $Id; ?></small></h1>
+    <h1>Eliminar Solicitante <small>Id: <?php echo $Id; ?></small></h1>
   </section>
 
   <!-- Main content -->
@@ -61,12 +61,12 @@ if(isset($_POST['btn-signup'])) {
 			<section class="content">
 				<div class="col-md-12">
 					<div class="callout callout-info">
-						<i class="fa fa-exclamation-circle"></i> &nbsp; Esta a punto de Eliminar el Cliente <strong><?php echo $fila['Nombre']; ?></strong>...
+						<i class="fa fa-exclamation-circle"></i> &nbsp; Esta a punto de Eliminar el Solicitante <strong><?php echo $fila['Nombre']; ?></strong>...
 
 					</div>
           <input type="hidden" id="TrId" name="TrId" value="<?php echo $fila['Tr_Id']; ?>" />
           <button tabindex="5" type="button" class="btn btn-default" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-          <button tabindex="4" type="submit" class="btn btn-danger" name="btn-signup" id="btn-signup"><i class="fa fa-remove"></i> &nbsp; Eliminar Cliente</button>
+          <button tabindex="4" type="submit" class="btn btn-danger" name="btn-signup" id="btn-signup"><i class="fa fa-remove"></i> &nbsp; Eliminar Solicitante</button>
 				</div>
 			</section>
   </form>
