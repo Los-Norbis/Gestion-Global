@@ -12,7 +12,7 @@ if ($level < 3) {
 	}
 
 	// Contar Transportes
-	if ($result = $mysqli->query("SELECT Id FROM fc_clientes")) {
+	if ($result = $mysqli->query("SELECT Id FROM clientes")) {
 			$cli_cnt = $result->num_rows;
 			$result->close();
 	}

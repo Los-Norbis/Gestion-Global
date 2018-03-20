@@ -8,7 +8,11 @@ include($iniUrl . 'dtload.php');
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
+<<<<<<< HEAD
       <h1>Stock <small>Inicio</small></h1>
+=======
+      <h1>Articulos<small>Inicio</small></h1>
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
     </section>
 
     <!-- Main content -->
@@ -20,6 +24,7 @@ include($iniUrl . 'dtload.php');
             <div class="box-header with-border">
               <h3 class="box-title">Control & Edici&oacute;n</h3>
             </div>
+<<<<<<< HEAD
             <!-- /.box-header -->
             <div class="box-body">
 
@@ -36,6 +41,26 @@ include($iniUrl . 'dtload.php');
                       <th>0001</th>
                   </tr>
                 </tbody>
+=======
+            <!-- /.box-header --->
+            <div class="box-body">
+
+              <table cellpadding="0" cellspacing="0" id="articulos" class="table nowrap table-striped table-bordered table-hover report" width="100%">
+                  <thead>
+                  <tr>
+                      <th>Id</th>
+                      <th data-priority="1">Descripcion</th>
+											<th>Stock</th>
+                      <th>Precio</th>
+                      <th>Unidad</th>
+                      <th>Categoria</th>
+                      <th>Marca</th>
+                      <th class="none"></th>
+                      <th class="none"></th>
+
+                  </tr>
+                  </thead>
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 
               </table>
 
@@ -52,6 +77,7 @@ include($iniUrl . 'dtload.php');
     </section>
     <!-- /.content -->
   </div>
+<<<<<<< HEAD
 
   <!-- Modal -->
   <div class="modal fade" id="marcaNuevaModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -89,13 +115,23 @@ include($iniUrl . 'dtload.php');
   </div>
 </div>
 
+=======
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
   <!-- /.content-wrapper -->
 
               <script type="text/javascript">
                 $(document).ready(function () {
 
+<<<<<<< HEAD
                     var funciones = <?php echo $_SESSION['levelSession']; ?>;
                     var tabla = $('#trans').DataTable({
+=======
+                    let formato = {style: "decimal"};
+                    // Número de dígitos fraccionarios
+                    formato.minimumFractionDigits = 2;
+                    var funciones = <?php echo $_SESSION['levelSession']; ?>;
+                    var tabla = $('#articulos').DataTable({
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 
                           responsive: true,
 													select: {style: 'single'},
@@ -104,21 +140,59 @@ include($iniUrl . 'dtload.php');
                           "processing": true,
                           "serverSide": true,
                           "ajax": {
+<<<<<<< HEAD
                               "url": 'dt_marcas.php',
+=======
+                              "url": 'dt_stock.php',
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
                               "type": "POST"
                           },
 
                           "columns": [
+<<<<<<< HEAD
                               { "data": "Nombre", 'width': '40%' },
 															{ "data": "Tipo", 'width': '10%' },
                               { "data": "Cuit", 'width': '15%' },
                               { "data": "Telefono", 'width': '15%' },
 							  							{ "data": "Email", 'width': '10%' },
                               { "data": "Id", 'width': '10%', className: 'text-right' }
+=======
+                              { "data": "Id", "visible" : false},
+															{ "data": "Descripcion", 'width': '25%' },
+                              { "data": "Stock", 'width': '3%', 'className' : 'text-right',
+                                render : function ( data, type, row ) {
+                                    if (data == '') {
+                                      return '<span class="bajostock">' + data + '</span>';
+                                    } else {
+                                      return '<span class="stock-default">' + data + '</span>';
+
+                                    }
+                                },
+                                "searchable": false
+                              },
+                              { "data": "PrecioCosto", 'width': '5%', 'className' : 'text-right',
+                                render : function ( data, type, row ) {
+                                    if (row.PrecioVenta > 0) {
+                                      var precio = parseFloat(row.PrecioVenta);
+                                      return '<span class="precioventa">$ ' + precio.toLocaleString('es', formato) + '</span>';
+                                    } else {
+                                      var precio = parseFloat(data);
+                                      return '<span class="stock-default">$ ' + precio.toLocaleString('es', formato) + '</span>';
+                                    }
+                                },
+                                "searchable": false
+                              },
+                              { "data": "Unidad", 'width': '5%' },
+							  							{ "data": "Categoria", 'width': '10%' },
+                              { "data": "Marca", 'width': '10%' },
+                              { "data": "StockMin", "visible" : false},
+                              { "data": "PrecioVenta", "visible" : false}
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 
                           ],
 													"columnDefs": [
 
+<<<<<<< HEAD
 															{
 																	"render": function ( data, type, row ) {
 																		if (data == 0) {
@@ -130,6 +204,12 @@ include($iniUrl . 'dtload.php');
 																	"searchable": false,
 																	"targets": 1
 															}
+=======
+                              {
+
+															}
+
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 													],
                           "order": [[ 0, "asc" ]],
 
@@ -176,7 +256,11 @@ include($iniUrl . 'dtload.php');
 												buttons: [
 													{ text: 'Nuevo',
 															action: function ( e, dt, node, config ) {
+<<<<<<< HEAD
 																	$("#marcaNuevaModal").modal();
+=======
+																	window.location.href = "nuevo.php";
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 															}
 													},
 													{ text: 'Modificar'},
@@ -187,9 +271,18 @@ include($iniUrl . 'dtload.php');
 																columns: [ 1, 2, 3, 5, 6, 7 ]
 															}
 													}, */
+<<<<<<< HEAD
 													{ text: 'Eliminar'}
 													//{ text: 'Cuenta Corriente'}
 													//{ text: 'Liquidar'}
+=======
+                          { text: 'Eliminar'},
+													//{ text: 'Cuenta Corriente'}
+													//{ text: 'Liquidar'}
+                          { text: 'Cuenta Corriente'}
+                          //{ text: 'Cuenta Corriente'}
+                          //{ text: 'Liquidar'}
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 												]
 
 
@@ -198,7 +291,11 @@ include($iniUrl . 'dtload.php');
 
 											// Declaracion al inicio...
 											// Modificar Disable
+<<<<<<< HEAD
 											tabla.buttons( [1,2] ).disable();
+=======
+											tabla.buttons( [1,2,3] ).disable();
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 
                       //tabla.buttons().container().appendTo( '#expedientes_wrapper .col-sm-6:eq(0)' );
                       $('#rocket').click(function(){
@@ -219,6 +316,7 @@ include($iniUrl . 'dtload.php');
                       );
 
 											// Seleccionar para Modificar
+<<<<<<< HEAD
 											$('#trans').on( 'select.dt', function () {
 													var trans_nombre = tabla.cell('.selected', 0).data();
 													var trans_id = tabla.cell('.selected', 5).data();
@@ -237,6 +335,29 @@ include($iniUrl . 'dtload.php');
 											$('#trans').on( 'deselect.dt', function () {
 													var trans_id = 0;
 													tabla.buttons([1,2]).disable();
+=======
+											$('#articulos').on( 'select.dt', function () {
+													var cliente_nombre = tabla.cell('.selected', 0).data();
+													var cliente_id = tabla.cell('.selected', 6).data();
+
+													tabla.button(1).action( function( e, dt, button, config ) {
+															window.location.href = "editar.php?Id=" + cliente_id;
+													} );
+
+													tabla.button(2).action( function( e, dt, button, config ) {
+															window.location.href = "eliminar.php?Id=" + cliente_id + "&Nombre=" + cliente_nombre;
+													} );
+                          tabla.button(3).action( function( e, dt, button, config ) {
+															window.location.href = "cc.php?Id=" + cliente_id + "&Nombre=" + cliente_nombre;
+													} );
+
+													tabla.buttons([1,2,3]).enable();
+											} );
+
+											$('#articulos').on( 'deselect.dt', function () {
+													var cliente_id = 0;
+													tabla.buttons([1,2,3]).disable();
+>>>>>>> 953e0f39abd1666c758e8ae6624bcd09f8761ee3
 											} );
 
 

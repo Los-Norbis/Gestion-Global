@@ -4,17 +4,17 @@ $iniUrl = '../';
 include($iniUrl . 'header.php');
 
 if(isset($_POST['btn-signup'])) {
-	$id = $_POST['m_id'];
 	$tipo = $_POST['m_tipo'];
 	$nom = $mysqli->real_escape_string(trim($_POST['m_nom']));
 	$cuit = $mysqli->real_escape_string(trim($_POST['m_cuit']));
 	$tel = $mysqli->real_escape_string(trim($_POST['m_tel']));
-	$dir = $mysqli->real_escape_string(trim($_POST['m_dir']));
 	$email = $mysqli->real_escape_string(trim($_POST['m_email']));
+	$dir = $mysqli->real_escape_string(trim($_POST['m_dir']));
+
 
 	// die($name . ' ' . $email . ' ' . $new_password);
-	$query = $mysqli->prepare("UPDATE clientes SET Nombre = ?, Tipo = ?, Cuit = ?, Telefono = ?, Direccion = ?, Email = ? WHERE Id = ?");
-	$query->bind_param('sissssi', $nom, $tipo, $cuit, $tel, $dir, $email, $id);
+	$query = $mysqli->prepare("INSERT INTO fc_clientes(Nombre, Tipo, Cuit, Telefono, Direccion, Email) VALUES (?,?,?,?,?,?)");
+	$query->bind_param('sissss', $nom, $tipo, $cuit, $tel, $dir, $email);
 
 	if($query->execute()) {
 			header('Location: index.php');
@@ -25,16 +25,6 @@ if(isset($_POST['btn-signup'])) {
 
 	$mysqli->close();
 
-} else {
-	$m_id = $_GET['Id'];
-	$sql = "SELECT * FROM clientes WHERE Id = " . $m_id;
-	if (!$resultado = $mysqli->query($sql)) {
-			// �Oh, no! La consulta fall�.
-			echo '<h2>Error... Transporte no encontrado (Id: ' . $m_id . '</h2>';
-			exit;
-	} else {
-			$fila = $resultado->fetch_assoc();
-	}
 }
 ?>
 
@@ -62,8 +52,7 @@ if(isset($_POST['btn-signup'])) {
 
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    <h1>Modificar Cliente <small>Id: <?php echo $m_id; ?></small></h1>
-
+    <h1>Nuevo Cliente</h1>
   </section>
 
   <!-- Main content -->
@@ -77,65 +66,63 @@ if(isset($_POST['btn-signup'])) {
             <span class="text-muted pull-right">El Nombre es obligatorio...</span>
           </div>
           <div class="box-body">
-        		<form method="post" id="login-form">
-							 <?php
+        	<form method="post" id="login-form">
+			<?php
               if(isset( $msg )){
                   echo $msg;
               }
-              ?>
+            ?>
 
               <div class="input-group" style="margin: 10px 0 20px;">
                 <span class="input-group-addon">
                   <i class="fa fa-user" style="width: 16px;"></i>
                 </span>
-    	          <input type="text" class="form-control" placeholder="Nombre" name="m_nom" required value="<?php echo $fila['Nombre']; ?>" autofocus/>
+    	          <input type="text" class="form-control" placeholder="Nombre" name="m_nom" required  autofocus/>
               </div>
 
                   <!-- Origen -->
                   <div class="form-group">
                     <div class="input-group" style="margin: 5px 0 0; text-align: center; width: 100%;">
                       <label style="margin-right: 24px;">
-                          <input tabindex="2" type="radio" name="m_tipo" value="0" class="square-blue" <?php echo ($fila['Tipo'] == 0 ? 'checked' : ''); ?> />  Persona F&iacute;sica
+                          <input tabindex="2" type="radio" name="m_tipo" value="0" class="square-blue" checked />  Persona F&iacute;sica
                       </label>
                       <label>
-                          <input tabindex="3" type="radio" name="m_tipo" value="1" class="square-blue" <?php echo ($fila['Tipo'] == 1 ? 'checked' : ''); ?> />  Persona Jur&iacute;dica
+                          <input tabindex="3" type="radio" name="m_tipo" value="1" class="square-blue" />  Persona Jur&iacute;dica
                       </label>
                     </div>
                   </div>
-
 
               <div class="input-group" style="margin: 10px 0 20px;">
                 <span class="input-group-addon">
                   <i class="fa fa-hashtag" style="width: 16px;"></i>
                 </span>
-                <input type="text" class="form-control" placeholder="N&deg; de CUIT" name="m_cuit" maxlength="13" value="<?php echo $fila['Cuit']; ?>" />
+                <input type="text" class="form-control" placeholder="N&deg; de CUIT" name="m_cuit" maxlength="13"  />
               </div>
 
               <div class="input-group" style="margin: 10px 0 20px;">
                 <span class="input-group-addon">
                   <i class="fa fa-phone" style="width: 16px;"></i>
                 </span>
-              	<input type="text" class="form-control" placeholder="Tel&eacute;fono" name="m_tel" value="<?php echo $fila['Telefono']; ?>" />
+              	<input type="text" class="form-control" placeholder="Tel&eacute;fono" name="m_tel"   />
               </div>
 
               <div class="input-group" style="margin: 10px 0 20px;">
                 <span class="input-group-addon">
                   <i class="fa fa-map-marker" style="width: 16px;"></i>
                 </span>
-              	<input type="text" class="form-control" placeholder="Direcci&oacute;n" name="m_dir" value="<?php echo $fila['Direccion']; ?>" />
+              	<input type="text" class="form-control" placeholder="Direcci&oacute;n" name="m_dir" />
               </div>
 
               <div class="input-group" style="margin: 10px 0 20px;">
                 <span class="input-group-addon">
                   <i class="fa fa-envelope" style="width: 16px;"></i>
                 </span>
-              	<input type="email" class="form-control" placeholder="Email" name="m_email" value="<?php echo $fila['Email']; ?>" />
+              	<input type="email" class="form-control" placeholder="Email" name="m_email" />
               </div>
 
               <div class="form-group">
-					      <input type="hidden" name="m_id" value="<?php echo $fila['Id']; ?>" />
               	<button type="button" class="btn btn-default pull-left" onclick="location.href='index.php'"><i class="fa fa-arrow-left"></i> &nbsp; Volver</button>
-                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-refresh"></i> &nbsp; Modificar Cliente</button>
+                <button type="submit" class="btn btn-primary pull-right" name="btn-signup" id="btn-signup"><i class="fa fa-download"></i> &nbsp; Agregar Solicitante</button>
               </div>
 
             </form>

@@ -13,7 +13,7 @@ if(isset($_POST['btn-signup'])) {
 
 
 	// die($name . ' ' . $email . ' ' . $new_password);
-	$query = $mysqli->prepare("INSERT INTO fc_clientes(Nombre, Tipo, Cuit, Telefono, Direccion, Email) VALUES (?,?,?,?,?,?)");
+	$query = $mysqli->prepare("INSERT INTO clientes(Nombre, Tipo, Cuit, Telefono, Direccion, Email) VALUES (?,?,?,?,?,?)");
 	$query->bind_param('sissss', $nom, $tipo, $cuit, $tel, $dir, $email);
 
 	if($query->execute()) {
