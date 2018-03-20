@@ -21,7 +21,7 @@ if (!empty($_POST) ) {
     /* END DB Config and connection */
 
 		include('../includes/db_connect.php');
-		define("TablaActual", "me_solicitantes");
+		define("TablaActual", "marcas");
 
     /* Useful $_POST Variables coming from the plugin */
     $draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables

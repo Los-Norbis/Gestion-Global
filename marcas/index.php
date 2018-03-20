@@ -23,7 +23,7 @@ include($iniUrl . 'dtload.php');
             <!-- /.box-header -->
             <div class="box-body">
 
-              <table cellpadding="0" cellspacing="0" id="trans" class="table nowrap table-striped table-bordered table-hover report" width="100%">
+              <table cellpadding="0" cellspacing="0" id="tablaMarcas" class="table nowrap table-striped table-bordered table-hover report" width="100%">
                   <thead>
                   <tr>
                       <th data-priority="1">Marca</th>
@@ -95,7 +95,7 @@ include($iniUrl . 'dtload.php');
                 $(document).ready(function () {
 
                     var funciones = <?php echo $_SESSION['levelSession']; ?>;
-                    var tabla = $('#trans').DataTable({
+                    var tabla = $('#tablaMarcas').DataTable({
 
                           responsive: true,
 													select: {style: 'single'},
