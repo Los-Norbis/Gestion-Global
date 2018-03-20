@@ -4923,14 +4923,31 @@ height: 100px;
 }
 
 @media (max-width: 991px) {
-div.dt-buttons,  div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_filter {
-    /*float: none;*/
-    width: 100%;
-    text-align: center !important;
-    margin-bottom: 0.5em;
+  div.dt-buttons,  div.dataTables_wrapper div.dataTables_length, div.dataTables_wrapper div.dataTables_filter {
+      /*float: none;*/
+      width: 100%;
+      text-align: center !important;
+      margin-bottom: 0.5em;
+  }
+  .btn-group > .btn, .btn-group-vertical > .btn {
+  	position: relative;
+  	float: none;
+  }
 }
-.btn-group > .btn, .btn-group-vertical > .btn {
-	position: relative;
-	float: none;
+
+/* Kave Classes */
+.stock-default {
+  padding: 0 6px;
 }
+.bajostock {
+  border-radius: 3px;
+  background-color: red;
+  color: #fff;
+  padding: 0 6px;
+}
+.precioventa {
+  border-radius: 3px;
+  background-color: #dedede;
+  color: #000;
+  padding: 0 6px;
 }

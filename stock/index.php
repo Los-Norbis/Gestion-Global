@@ -8,7 +8,7 @@ include($iniUrl . 'dtload.php');
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>Clientes<small>Inicio</small></h1>
+      <h1>Articulos<small>Inicio</small></h1>
     </section>
 
     <!-- Main content -->
@@ -23,16 +23,19 @@ include($iniUrl . 'dtload.php');
             <!-- /.box-header -->
             <div class="box-body">
 
-              <table cellpadding="0" cellspacing="0" id="trans" class="table nowrap table-striped table-bordered table-hover report" width="100%">
+              <table cellpadding="0" cellspacing="0" id="articulos" class="table nowrap table-striped table-bordered table-hover report" width="100%">
                   <thead>
                   <tr>
-                      <th data-priority="1">Nombre</th>
-											<th>Tipo</th>
-                      <th>CUIT</th>
-                      <th>Tel&eacute;fono</th>
-                      <th>Direcci&oacute;n</th>
-                      <th>Email</th>
                       <th>Id</th>
+                      <th data-priority="1">Descripcion</th>
+											<th>Stock</th>
+                      <th>Precio</th>
+                      <th>Unidad</th>
+                      <th>Categoria</th>
+                      <th>Marca</th>
+                      <th class="none"></th>
+                      <th class="none"></th>
+
                   </tr>
                   </thead>
 
@@ -56,8 +59,11 @@ include($iniUrl . 'dtload.php');
               <script type="text/javascript">
                 $(document).ready(function () {
 
+                    let formato = {style: "decimal"};
+                    // Número de dígitos fraccionarios
+                    formato.minimumFractionDigits = 2;
                     var funciones = <?php echo $_SESSION['levelSession']; ?>;
-                    var tabla = $('#trans').DataTable({
+                    var tabla = $('#articulos').DataTable({
 
                           responsive: true,
 													select: {style: 'single'},
@@ -66,33 +72,49 @@ include($iniUrl . 'dtload.php');
                           "processing": true,
                           "serverSide": true,
                           "ajax": {
-                              "url": 'dt_transportes.php',
+                              "url": 'dt_stock.php',
                               "type": "POST"
                           },
 
                           "columns": [
-                              { "data": "Nombre", 'width': '25%' },
-															{ "data": "Tipo", 'width': '5%' },
-                              { "data": "Cuit", 'width': '15%' },
-                              { "data": "Telefono", 'width': '15%' },
-                              { "data": "Direccion", 'width': '15%' },
-							  							{ "data": "Email", 'width': '10%' },
-                              { "data": "Id", 'width': '10%', className: 'text-right' }
+                              { "data": "Id", "visible" : false},
+															{ "data": "Descripcion", 'width': '25%' },
+                              { "data": "Stock", 'width': '3%', 'className' : 'text-right',
+                                render : function ( data, type, row ) {
+                                    if (data == '') {
+                                      return '<span class="bajostock">' + data + '</span>';
+                                    } else {
+                                      return '<span class="stock-default">' + data + '</span>';
+
+                                    }
+                                },
+                                "searchable": false
+                              },
+                              { "data": "PrecioCosto", 'width': '5%', 'className' : 'text-right',
+                                render : function ( data, type, row ) {
+                                    if (row.PrecioVenta > 0) {
+                                      var precio = parseFloat(row.PrecioVenta);
+                                      return '<span class="precioventa">$ ' + precio.toLocaleString('es', formato) + '</span>';
+                                    } else {
+                                      var precio = parseFloat(data);
+                                      return '<span class="stock-default">$ ' + precio.toLocaleString('es', formato) + '</span>';
+                                    }
+                                },
+                                "searchable": false
+                              },
+                              { "data": "Unidad", 'width': '5%' },
+							  							{ "data": "Categoria", 'width': '10%' },
+                              { "data": "Marca", 'width': '10%' },
+                              { "data": "StockMin", "visible" : false},
+                              { "data": "PrecioVenta", "visible" : false}
 
                           ],
 													"columnDefs": [
 
-															{
-																	"render": function ( data, type, row ) {
-																		if (data == 0) {
-																			return '<i class="fa fa-user" aria-hidden="true" style="color: #00a9aa;"></i>';
-																		} else {
-																			return '<i class="fa fa-book" aria-hidden="true" style="color: #232338;"></i>';
-																		}
-																	},
-																	"searchable": false,
-																	"targets": 1
+                              {
+
 															}
+
 													],
                           "order": [[ 0, "asc" ]],
 
@@ -185,7 +207,7 @@ include($iniUrl . 'dtload.php');
                       );
 
 											// Seleccionar para Modificar
-											$('#trans').on( 'select.dt', function () {
+											$('#articulos').on( 'select.dt', function () {
 													var cliente_nombre = tabla.cell('.selected', 0).data();
 													var cliente_id = tabla.cell('.selected', 6).data();
 
@@ -203,7 +225,7 @@ include($iniUrl . 'dtload.php');
 													tabla.buttons([1,2,3]).enable();
 											} );
 
-											$('#trans').on( 'deselect.dt', function () {
+											$('#articulos').on( 'deselect.dt', function () {
 													var cliente_id = 0;
 													tabla.buttons([1,2,3]).disable();
 											} );

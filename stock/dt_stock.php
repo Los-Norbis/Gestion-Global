@@ -21,7 +21,7 @@ if (!empty($_POST) ) {
     /* END DB Config and connection */
 
 		include('../includes/db_connect.php');
-		define("TablaActual", "fc_clientes");
+		define("TablaActual", "articulos");
 
     /* Useful $_POST Variables coming from the plugin */
     $draw = $_POST["draw"];//counter used by DataTables to ensure that the Ajax returns from server-side processing requests are drawn in sequence by DataTables
@@ -38,9 +38,12 @@ if (!empty($_POST) ) {
     if(!empty($_POST['search']['value'])){
 
         /* WHERE Clause for searching */
-        for($i=0 ; $i < (count($_POST['columns'])-1);$i++){
+				for($i=0 ; $i < (count($_POST['columns'])-1);$i++){
+					$casi = trim($_POST['columns'][$i]['searchable']);
+					if ($casi == 'true') {
             $column = $_POST['columns'][$i]['data'];//we get the name of each column using its index from POST request
             $where[]="$column like '%".$_POST['search']['value']."%'";
+					}
         }
         $where = "WHERE ".implode(" OR " , $where);// id like '%searchValue%' or name like '%searchValue%' ....
         /* End WHERE */
