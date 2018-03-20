@@ -20,7 +20,7 @@ include($iniUrl . 'dtload.php');
             <div class="box-header with-border">
               <h3 class="box-title">Control & Edici&oacute;n</h3>
             </div>
-            <!-- /.box-header -->
+            <!-- /.box-header --->
             <div class="box-body">
 
               <table cellpadding="0" cellspacing="0" id="articulos" class="table nowrap table-striped table-bordered table-hover report" width="100%">
